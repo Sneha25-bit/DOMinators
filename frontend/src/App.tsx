@@ -17,6 +17,7 @@ import MyDonations from "./pages/MyDonations";
 import MyFriends from "./pages/MyFriends";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
+import MarineCategories from "./pages/MarineCategories";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/my-friends" element={<MyFriends />} />
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/marine-mammals" element={<MarineCategories/>}/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
