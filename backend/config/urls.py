@@ -20,4 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('ocean.urls')),
+    path('api/ocean-ai/', include('ocean_ai.urls')),
+
 ]
