@@ -23,7 +23,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('ocean.urls')),
+    path('api/users/', include('users.urls')),
     path('api/ocean-ai/', include('ocean_ai.urls')),
     path('api/community/', include('community.urls')),
     path('api/auth/', include([

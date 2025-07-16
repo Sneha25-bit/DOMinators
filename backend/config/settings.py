@@ -30,7 +30,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
 INSTALLED_APPS = [
+    'users',
     'community',
     'ocean.apps.OceanConfig',
     'rest_framework',
