@@ -7,7 +7,7 @@ import CommunityHeader from '@/components/community/CommunityHeader';
 import CreatePostForm from '@/components/community/CreatePostForm';
 import DiscussionCard from '@/components/community/DiscussionCard';
 import api from '@/lib/api';
-import { set } from 'date-fns';
+
 
 const CommunityPage = () => {
   const { user } = useAuth();
@@ -70,48 +70,7 @@ const CommunityPage = () => {
   };
 
 
-  // const handleCreatePost = () => {
-  //   if (!newPost.title.trim() || !newPost.content.trim()) {
-  //     toast.error('Please fill in both title and content');
-  //     return;
-  //   }
-
-  //   const post = {
-  //     id: discussions.length + 1,
-  //     author: {
-  //       username: user?.username || 'you',
-  //       fullName: user?.fullName || 'You',
-  //       marineCharacter: user?.marineCharacter || 'dolphin',
-  //       points: user?.points || 0,
-  //       status: 'online' as const
-  //     },
-  //     title: newPost.title,
-  //     content: newPost.content,
-  //     likes: 0,
-  //     replies: 0,
-  //     timestamp: 'just now',
-  //     category: 'Discussion'
-  //   };
-
-  //   setDiscussions([post, ...discussions]);
-  //   setNewPost({ title: '', content: '' });
-  //   toast.success('Discussion posted successfully!');
-  // };
-
-  // const handleLike = (id: number) => {
-  //   setDiscussions(prev => 
-  //     prev.map(discussion => 
-  //       discussion.id === id 
-  //         ? { ...discussion, likes: discussion.likes + 1 }
-  //         : discussion
-  //     )
-  //   );
-  //   toast.success('Liked! +1 point earned');
-  // };
-
-  // const handleAddFriend = (username: string) => {
-  //   toast.success(`Friend request sent to ${username}!`);
-  // };
+ 
 
   return (
     <Layout>

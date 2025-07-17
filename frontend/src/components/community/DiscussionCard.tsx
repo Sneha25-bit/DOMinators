@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import UserProfileHoverCard from './UserProfileHoverCard';
+import { formatDistanceToNow } from 'date-fns';
 
 interface Discussion {
   id: number;
@@ -48,7 +49,9 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, onLike, onA
             <Badge className="bg-cyan-600/80 text-white mb-1">
               {discussion.category}
             </Badge>
-            <p className="text-white/60 text-xs">{discussion.timestamp}</p>
+            <p className="text-white/60 text-xs">
+              {formatDistanceToNow(new Date(discussion.timestamp), { addSuffix: true })}
+            </p>
           </div>
         </div>
         <CardTitle className="text-white mt-4">{discussion.title}</CardTitle>
