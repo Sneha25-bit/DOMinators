@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Waves, Fish } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
-import { registerUser } from '@/lib/authApi';
+import { registerUser } from '@/api/auth';
 
 const SignupPage = () => {
   const navigate = useNavigate();

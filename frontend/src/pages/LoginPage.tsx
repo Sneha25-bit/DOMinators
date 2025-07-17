@@ -1,4 +1,4 @@
-import { loginUser, fetchUserProfile } from '@/lib/authApi';
+import { loginUser, fetchUserProfile } from '@/api/auth';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';

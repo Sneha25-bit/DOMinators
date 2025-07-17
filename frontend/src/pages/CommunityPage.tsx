@@ -6,7 +6,8 @@ import { toast } from 'sonner';
 import CommunityHeader from '@/components/community/CommunityHeader';
 import CreatePostForm from '@/components/community/CreatePostForm';
 import DiscussionCard from '@/components/community/DiscussionCard';
-import api from '@/lib/api';
+import { getDiscussions, createPost, likePost } from '@/api/community';
+import { addUserPoints }  from '@/api/points';
 
 
 const CommunityPage = () => {
@@ -15,7 +16,7 @@ const CommunityPage = () => {
   const [discussions, setDiscussions] = useState([]);
 
   useEffect(() => {
-    api.get('discussions/')
+    getDiscussions()
       .then(res => setDiscussions(res.data))
       .catch(err => {
         console.error(err);
@@ -30,7 +31,7 @@ const CommunityPage = () => {
   }
 
   try {
-    const response = await api.post('discussions/', {
+    const response = await createPost({
       title: newPost.title,
       content: newPost.content,
       category: 'Discussion'
@@ -52,13 +53,19 @@ const CommunityPage = () => {
 
   const handleLike = async (id: number) => {
     try {
-      const res = await api.post(`discussions/${id}/like/`);
+      const res = await likePost(id);
       const data = await res.data
 
       setDiscussions(prev => 
         prev.map(d => d.id === id ? { ...d, likes: data.likes, liked_by_user: data.liked } : d)
       );
-      toast.success(data.liked ? 'Liked! +1 point earned': 'Unliked');
+      if (data.liked) {
+      await addUserPoints(1); 
+      toast.success('Liked! +1 point earned');
+    } else {
+      toast('Unliked');
+    }
+      
     } catch (err) {
       console.error(err);
       toast.error('Failed to like post');
