@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Waves, Fish } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { registerUser } from '@/lib/authApi';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const SignupPage = () => {
     { value: 'seahorse', label: '🦄 Seahorse', description: 'Unique and magical' }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.fullName || !formData.username || !formData.email || !formData.phone || !formData.password || !formData.marineCharacter) {
@@ -45,21 +46,23 @@ const SignupPage = () => {
       return;
     }
 
-    const newUser = {
-      id: Date.now().toString(),
-      fullName: formData.fullName,
-      username: formData.username,
-      email: formData.email,
-      phone: formData.phone,
-      marineCharacter: formData.marineCharacter,
-      joinDate: new Date().toISOString(),
-      points: 50, // Welcome bonus
-      status: 'online' as const
-    };
+    const payload = {
+    full_name: formData.fullName,
+    username: formData.username,
+    email: formData.email,
+    phone: formData.phone,
+    password: formData.password,
+    marine_character: formData.marineCharacter,
+  };
 
-    login(newUser);
-    toast.success('Welcome to Ocean Explorer! You earned 50 welcome points!');
-    navigate('/home');
+  try {
+    const response = await registerUser(payload);
+    toast.success('Account created! Welcome aboard 🐬');
+    navigate('/login'); // or login user directly
+  } catch (error: any) {
+    const msg = error?.response?.data?.detail || 'Registration failed';
+    toast.error(msg);
+  }
   };
 
   return (
