@@ -52,11 +52,13 @@ const CommunityPage = () => {
 
   const handleLike = async (id: number) => {
     try {
-      await api.post(`discussions/${id}/like/`);
+      const res = await api.post(`discussions/${id}/like/`);
+      const data = await res.data
+
       setDiscussions(prev => 
-        prev.map(d => d.id === id ? { ...d, likes: d.likes + 1 } : d)
+        prev.map(d => d.id === id ? { ...d, likes: data.likes, liked_by_user: data.liked } : d)
       );
-      toast.success('Liked! +1 point earned');
+      toast.success(data.liked ? 'Liked! +1 point earned': 'Unliked');
     } catch (err) {
       console.error(err);
       toast.error('Failed to like post');

@@ -15,4 +15,10 @@ authApi.interceptors.request.use((config) => {
 
 export const registerUser = (userData: any) => authApi.post('register/', userData);
 
+export const loginUser = (credentials: { username: string; password: string }) =>
+  authApi.post('token/', credentials);
+
+export const fetchUserProfile = () =>
+  authApi.get('/me/');
+
 export default authApi;

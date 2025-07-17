@@ -18,3 +18,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             marine_character=validated_data.get('marine_character', 'dolphin'),
         )
         return user
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+        
