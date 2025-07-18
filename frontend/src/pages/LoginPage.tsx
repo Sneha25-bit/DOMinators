@@ -1,4 +1,4 @@
-
+import { loginUser, fetchUserProfile } from '@/api/auth';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -17,30 +17,31 @@ const LoginPage = () => {
     password: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!formData.username || !formData.password) {
+    toast.error('Please fill in all fields');
+    return;
+  }
+
+  try {
+    const { data } = await loginUser(formData);
+
+    // Store access & refresh tokens
+    localStorage.setItem('access_token', data.access);
+    localStorage.setItem('refresh_token', data.refresh);
+
     
-    if (!formData.username || !formData.password) {
-      toast.error('Please fill in all fields');
-      return;
-    }
+    const { data: user } = await fetchUserProfile();
 
-    // Mock login - in real app, this would validate against a database
-    const mockUser = {
-      id: '1',
-      fullName: 'Ocean Explorer',
-      username: formData.username,
-      email: 'user@ocean.com',
-      phone: '+1234567890',
-      marineCharacter: 'dolphin',
-      joinDate: new Date().toISOString(),
-      points: 0,
-      status: 'online' as const
-    };
-
-    login(mockUser);
+    login(user);
+    
     toast.success('Welcome back to Ocean Explorer!');
     navigate('/home');
+  } catch (error: any) {
+    toast.error('Invalid username or password');
+  }
   };
 
   return (
