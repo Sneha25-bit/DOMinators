@@ -1,0 +1,151 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 100% 98%;
+    --foreground: 200 100% 15%;
+    --card: 190 100% 95%;
+    --card-foreground: 200 100% 15%;
+    --popover: 190 100% 95%;
+    --popover-foreground: 200 100% 15%;
+    --primary: 195 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 185 80% 85%;
+    --secondary-foreground: 200 100% 15%;
+    --muted: 185 80% 90%;
+    --muted-foreground: 200 50% 35%;
+    --accent: 175 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 185 50% 80%;
+    --input: 185 50% 85%;
+    --ring: 195 100% 45%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-gradient-to-br from-blue-900 via-cyan-800 to-teal-900 text-foreground min-h-screen;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Ocean Wave Animation */
+@keyframes wave {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(-5px) translateY(-2px); }
+  50% { transform: translateX(0) translateY(-4px); }
+  75% { transform: translateX(5px) translateY(-2px); }
+}
+
+/* Water Ripple Effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple-effect:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Bubble Animation */
+@keyframes bubble {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+.bubble {
+  position: fixed;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(0,200,255,0.1));
+  animation: bubble 8s infinite linear;
+  pointer-events: none;
+}
+
+/* Ocean gradient background - darker version */
+.ocean-gradient {
+  background: linear-gradient(135deg, 
+    #1e3a8a 0%, 
+    #1e40af 25%, 
+    #0891b2 50%, 
+    #0e7490 75%, 
+    #164e63 100%);
+}
+
+/* Glowing effect */
+.glow {
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 58, 138, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #0891b2, #164e63);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #0e7490, #0f172a);
+}

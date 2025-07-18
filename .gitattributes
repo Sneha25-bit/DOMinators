@@ -1,0 +1,40 @@
+# Ensure consistent line endings
+* text=auto
+
+# Treat Python files as text
+*.py text
+
+# Treat JavaScript/TypeScript files as text
+*.js  text
+*.jsx text
+*.ts  text
+*.tsx text
+
+# JSON, YAML, and config files
+*.json text
+*.yml  text
+*.yaml text
+*.mjs  text
+*.cjs  text
+
+# Markdown and docs
+*.md  text
+*.txt text
+
+# CSS and HTML
+*.css  text
+*.scss text
+*.html text
+
+# Shell and batch scripts
+*.sh  text eol=lf
+*.bat text eol=crlf
+
+# Ignore images and binary files from text normalization
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.pdf binary
