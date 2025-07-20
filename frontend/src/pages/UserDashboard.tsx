@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -7,9 +7,14 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import { User, Trophy, Heart, MessageSquare, Calendar, Fish } from 'lucide-react';
+import { fetchUserDashboard } from '@/api/dashboard';
+import { toast } from 'sonner';
+
 
 const UserDashboard = () => {
-  const { user } = useAuth();
+  const { accessToken } = useAuth();
+  const [dashboard, setDashboard] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   const getCharacterEmoji = (character: string) => {
     const emojis: { [key: string]: string } = {
@@ -18,24 +23,31 @@ const UserDashboard = () => {
       whale: '🐋',
       octopus: '🐙',
       shark: '🦈',
-      seahorse: '🦄'
+      seahorse: '🦄',
     };
     return emojis[character] || '🐠';
   };
 
-  const recentActivities = [
-    { id: 1, type: 'game', description: 'Won Tic-Tac-Toe match', points: 10, time: '2 hours ago' },
-    { id: 2, type: 'donation', description: 'Donated to Coral Reef Protection', points: 50, time: '1 day ago' },
-    { id: 3, type: 'community', description: 'Posted in Ocean Conservation', points: 5, time: '2 days ago' },
-    { id: 4, type: 'game', description: 'Completed Fish Guessing Game', points: 15, time: '3 days ago' }
-  ];
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const data = await fetchUserDashboard();
+        setDashboard(data);
+      } catch (error) {
+        toast.error('Failed to load dashboard');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const achievements = [
-    { name: 'Ocean Explorer', description: 'Visited all live cams', earned: true },
-    { name: 'Community Leader', description: 'Made 10 posts', earned: true },
-    { name: 'Marine Protector', description: 'Donated $100+', earned: false },
-    { name: 'Game Master', description: 'Won 50 games', earned: false }
-  ];
+    if (accessToken) loadDashboard();
+  }, [accessToken]);
+
+  if (!loading && !dashboard) {
+    return <div className="text-red-500 text-center mt-10">Failed to load dashboard. Please try again later.</div>;
+  }
+  if (loading) return <div className="text-white text-center mt-10">Loading dashboard...</div>;
 
   return (
     <Layout>
@@ -54,38 +66,38 @@ const UserDashboard = () => {
             <div className="flex items-center space-x-4">
               <Avatar className="h-20 w-20">
                 <AvatarFallback className="bg-cyan-600 text-white text-2xl">
-                  {getCharacterEmoji(user?.marineCharacter || 'dolphin')}
+                  {getCharacterEmoji(dashboard?.marine_character || 'dolphin')}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <CardTitle className="text-white text-2xl">{user?.fullName}</CardTitle>
-                <CardDescription className="text-white/70 text-lg">@{user?.username}</CardDescription>
+                <CardTitle className="text-white text-2xl">{dashboard?.full_name}</CardTitle>
+                <CardDescription className="text-white/70 text-lg">@{dashboard?.username}</CardDescription>
                 <div className="flex items-center mt-2">
                   <Fish className="w-5 h-5 mr-2 text-cyan-400" />
-                  <span className="text-white font-semibold">{user?.points || 0} Ocean Points</span>
+                  <span className="text-white font-semibold">{dashboard?.points} Ocean Points</span>
                 </div>
               </div>
               <Badge className="bg-cyan-600 text-white">
-                {user?.marineCharacter || 'Dolphin'} Lover
+                {dashboard?.marine_character || 'Dolphin'} Lover
               </Badge>
             </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">12</p>
+                <p className="text-2xl font-bold text-white">{dashboard?.games_won}</p>
                 <p className="text-white/70 text-sm">Games Won</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">$250</p>
+                <p className="text-2xl font-bold text-white">${dashboard?.total_donated}</p>
                 <p className="text-white/70 text-sm">Total Donated</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">8</p>
+                <p className="text-2xl font-bold text-white">{dashboard?.posts_made}</p>
                 <p className="text-white/70 text-sm">Posts Made</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">15</p>
+                <p className="text-2xl font-bold text-white">{dashboard?.friends}</p>
                 <p className="text-white/70 text-sm">Friends</p>
               </div>
             </div>
@@ -102,7 +114,7 @@ const UserDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {recentActivities.map((activity) => (
+              {dashboard?.recent_activities?.map((activity: any) => (
                 <div key={activity.id} className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
                   <div className="flex items-center space-x-3">
                     {activity.type === 'game' && <Trophy className="w-5 h-5 text-yellow-400" />}
@@ -130,7 +142,7 @@ const UserDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {achievements.map((achievement, index) => (
+              {dashboard?.achievements?.map((achievement: any, index: number) => (
                 <div key={index} className={`p-3 rounded-lg ${achievement.earned ? 'bg-cyan-600/20' : 'bg-white/10'}`}>
                   <div className="flex items-center justify-between">
                     <div>
@@ -162,11 +174,11 @@ const UserDashboard = () => {
             <div className="space-y-4">
               <div className="flex justify-between text-white">
                 <span>Ocean Explorer Level 3</span>
-                <span>{user?.points || 0} / 500 points</span>
+                <span>{dashboard?.points || 0} / 500 points</span>
               </div>
-              <Progress value={((user?.points || 0) / 500) * 100} className="w-full" />
+              <Progress value={(dashboard?.points || 0) / 5} className="w-full" />
               <p className="text-white/70 text-sm">
-                Earn {500 - (user?.points || 0)} more points to reach the next level and unlock exclusive features!
+                Earn {500 - (dashboard?.points || 0)} more points to reach the next level and unlock exclusive features!
               </p>
             </div>
           </CardContent>

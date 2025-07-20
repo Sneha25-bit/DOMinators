@@ -6,5 +6,9 @@ export const registerUser = (userData: any) =>
 export const loginUser = (credentials: { username: string; password: string }) =>
   apiClient.post('users/token/', credentials);
 
-export const fetchUserProfile = () =>
-  apiClient.get('users/me/');
+export const fetchUserProfile = (accessToken: string) =>
+  apiClient.get('users/me/', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
