@@ -3,6 +3,8 @@ from django.conf import settings
 
 class Friend(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friends')
+    friend_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friends_of')
+
     username = models.CharField(max_length=150)
     full_name = models.CharField(max_length=150)
     marine_character = models.CharField(max_length=50)

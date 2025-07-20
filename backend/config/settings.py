@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'donations',
     'donation_stats',
     'friends',
+    'message',
 ]
 
 MIDDLEWARE = [

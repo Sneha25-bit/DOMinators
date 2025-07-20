@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Friend, FriendRequest
 
 class FriendSerializer(serializers.ModelSerializer):
+    friend_user_id = serializers.IntegerField(source='user.id', read_only=True)
     class Meta:
         model = Friend
         fields = '__all__'
