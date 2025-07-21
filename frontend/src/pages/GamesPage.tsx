@@ -7,10 +7,21 @@ import { Badge } from '@/components/ui/badge';
 import { Trophy, Gamepad2, Fish, X, Circle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { logUserActivity } from '@/api/dashboard';
+
+const logActivity = async (type: 'game', description: string, points: number) => {
+  try {
+    await logUserActivity({ type, description, points });
+  } catch (err) {
+    console.error('Failed to log activity:', err);
+  }
+};
 
 const GamesPage = () => {
-  const { user, updateUserPoints } = useAuth();
+  const { user, updateUserPoints, isAuthenticated } = useAuth();
   const [activeGame, setActiveGame] = useState<'none' | 'tictactoe' | 'guessfish'>('none');
+
+  const token = localStorage.getItem('access_token');
 
   // Tic Tac Toe State
   const [board, setBoard] = useState<('X' | 'O' | null)[]>(Array(9).fill(null));
@@ -86,7 +97,7 @@ const GamesPage = () => {
     return null;
   };
 
-  const handleTicTacToeClick = (index: number) => {
+  const handleTicTacToeClick = async (index: number) => {
     if (board[index] || gameStatus !== 'playing' || !isPlayerTurn) return;
 
     const newBoard = [...board];
@@ -99,6 +110,7 @@ const GamesPage = () => {
       setGameStatus('won');
       updateUserPoints(50);
       toast.success('You won! +50 points!');
+      await logActivity('game', 'Won Tic Tac Toe', 50);
       return;
     }
 
@@ -106,12 +118,14 @@ const GamesPage = () => {
       setGameStatus('draw');
       updateUserPoints(10);
       toast.success('Draw! +10 points!');
+      await logActivity('game', 'Drew Tic Tac Toe', 10);
       return;
     }
 
     // AI move
     setTimeout(() => {
-      const aiBoard = [...newBoard];
+      ( async () => {
+        const aiBoard = [...newBoard];
       const emptyCells = aiBoard.map((cell, idx) => cell === null ? idx : null).filter(val => val !== null);
       if (emptyCells.length > 0) {
         const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
@@ -126,13 +140,14 @@ const GamesPage = () => {
           setGameStatus('draw');
           updateUserPoints(10);
           toast.success('Draw! +10 points!');
+          await logActivity('game', 'Drew Tic Tac Toe', 10);
         } else {
           setIsPlayerTurn(true);
         }
       }
+      })();
     }, 1000);
   };
-
   const resetTicTacToe = () => {
     setBoard(Array(9).fill(null));
     setIsPlayerTurn(true);
@@ -140,7 +155,8 @@ const GamesPage = () => {
   };
 
   // Guess the Fish Logic
-  const handleFishAnswer = (selectedAnswer: number) => {
+  const handleFishAnswer = async (selectedAnswer: number) => {
+    
     if (selectedAnswer === fishQuestions[currentFish].correct) {
       setScore(score + 1);
       updateUserPoints(25);
@@ -156,6 +172,7 @@ const GamesPage = () => {
       const totalPoints = score * 25;
       updateUserPoints(totalPoints);
       toast.success(`Game complete! Final score: ${score + (selectedAnswer === fishQuestions[currentFish].correct ? 1 : 0)}/${fishQuestions.length}`);
+      await logActivity('game', 'Completed Guess the Fish Quiz', totalPoints);
     }
   };
 

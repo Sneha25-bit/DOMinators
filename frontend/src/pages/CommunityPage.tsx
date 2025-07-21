@@ -8,7 +8,15 @@ import CreatePostForm from '@/components/community/CreatePostForm';
 import DiscussionCard from '@/components/community/DiscussionCard';
 import { getDiscussions, createPost, likePost } from '@/api/community';
 import { addUserPoints }  from '@/api/points';
+import { logUserActivity } from '@/api/dashboard';
 
+const logActivity = async (type: 'community', description: string, points: number) => {
+  try {
+    await logUserActivity({ type, description, points });
+  } catch (err) {
+    console.error('Failed to log activity:', err);
+  }
+};
 
 const CommunityPage = () => {
   const { user } = useAuth();
@@ -41,7 +49,9 @@ const CommunityPage = () => {
 
     setDiscussions([post, ...discussions]);
     setNewPost({ title: '', content: '' });
-    toast.success('Discussion posted successfully!');
+    toast.success('Discussion posted successfully! +5 points earned');
+    await addUserPoints(5);
+    await logActivity('community', 'Posted Discussion', 5);
   } catch (error: any) {
     if (error.response?.status === 403 || error.response?.status === 401) {
       toast.error('You must be logged in to post.');

@@ -15,7 +15,8 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (userData: User) => void;
+  accessToken: string | null;
+  login: (userData: User, token:string) => void;
   logout: () => void;
   isAuthenticated: boolean;
   updateUserPoints: (points: number) => void;
@@ -25,22 +26,31 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
 
   useEffect(() => {
     const savedUser = localStorage.getItem('oceanUser');
-    if (savedUser) {
+    const savedToken = localStorage.getItem('oceanToken');
+
+    if (savedUser && savedToken) {
       setUser(JSON.parse(savedUser));
+      setAccessToken(savedToken);
     }
   }, []);
 
-  const login = (userData: User) => {
+  const login = (userData: User, token:string) => {
     setUser(userData);
+    setAccessToken(token);
     localStorage.setItem('oceanUser', JSON.stringify(userData));
+    localStorage.setItem('oceanToken', token);
   };
 
   const logout = () => {
     setUser(null);
+    setAccessToken(null);
     localStorage.removeItem('oceanUser');
+    localStorage.removeItem('oceanToken');
   };
 
   const updateUserPoints = (points: number) => {
@@ -54,6 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{
       user,
+      accessToken,
       login,
       logout,
       isAuthenticated: !!user,

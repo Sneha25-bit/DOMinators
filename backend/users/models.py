@@ -21,3 +21,24 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+class Activity(models.Model):
+    TYPE_CHOICES = [
+        ('game', 'Game'),
+        ('donation', 'Donation'),
+        ('community', 'Community'),
+    ]
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='activities')
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    description = models.TextField()
+    points = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+class Achievement(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=255)
+
+class UserAchievement(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_achievements')
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
+    earned = models.BooleanField(default=False)

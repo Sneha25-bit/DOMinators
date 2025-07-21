@@ -28,14 +28,17 @@ const LoginPage = () => {
   try {
     const { data } = await loginUser(formData);
 
+    const access = data.access;
+    const refresh = data.refresh;
+
     // Store access & refresh tokens
-    localStorage.setItem('access_token', data.access);
-    localStorage.setItem('refresh_token', data.refresh);
+    localStorage.setItem('access_token', access);
+    localStorage.setItem('refresh_token', refresh);
 
     
-    const { data: user } = await fetchUserProfile();
+    const { data: user } = await fetchUserProfile(access);
 
-    login(user);
+    login(user, access);
     
     toast.success('Welcome back to Ocean Explorer!');
     navigate('/home');
