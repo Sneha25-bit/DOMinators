@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,7 +6,6 @@ import CommunityHeader from '@/components/community/CommunityHeader';
 import CreatePostForm from '@/components/community/CreatePostForm';
 import DiscussionCard from '@/components/community/DiscussionCard';
 import { getDiscussions, createPost, likePost } from '@/api/community';
-import { addUserPoints }  from '@/api/points';
 import { logUserActivity } from '@/api/dashboard';
 
 const logActivity = async (type: 'community', description: string, points: number) => {
@@ -19,7 +17,7 @@ const logActivity = async (type: 'community', description: string, points: numbe
 };
 
 const CommunityPage = () => {
-  const { user } = useAuth();
+  const { user, updateUserPoints } = useAuth();
   const [newPost, setNewPost] = useState({ title: '', content: '' });
   const [discussions, setDiscussions] = useState([]);
 
@@ -30,52 +28,54 @@ const CommunityPage = () => {
         console.error(err);
         toast.error('Failed to load discussions');
       });
-  }, [])
+  }, []);
 
   const handleCreatePost = async () => {
-  if (!newPost.title.trim() || !newPost.content.trim()) {
-    toast.error('Please fill in both title and content');
-    return;
-  }
-
-  try {
-    const response = await createPost({
-      title: newPost.title,
-      content: newPost.content,
-      category: 'Discussion'
-    });
-
-    const post = response.data;
-
-    setDiscussions([post, ...discussions]);
-    setNewPost({ title: '', content: '' });
-    toast.success('Discussion posted successfully! +5 points earned');
-    await addUserPoints(5);
-    await logActivity('community', 'Posted Discussion', 5);
-  } catch (error: any) {
-    if (error.response?.status === 403 || error.response?.status === 401) {
-      toast.error('You must be logged in to post.');
-    } else {
-      toast.error('Failed to create post');
+    if (!newPost.title.trim() || !newPost.content.trim()) {
+      toast.error('Please fill in both title and content');
+      return;
     }
-  }
-};
+
+    try {
+      const response = await createPost({
+        title: newPost.title,
+        content: newPost.content,
+        category: 'Discussion',
+      });
+
+      const post = response.data;
+      setDiscussions([post, ...discussions]);
+      setNewPost({ title: '', content: '' });
+
+      await updateUserPoints(5); //  award points and refresh context
+      toast.success('Discussion posted successfully! +5 points earned');
+
+      await logActivity('community', 'Posted Discussion', 0);
+    } catch (error: any) {
+      if (error.response?.status === 403 || error.response?.status === 401) {
+        toast.error('You must be logged in to post.');
+      } else {
+        toast.error('Failed to create post');
+      }
+    }
+  };
 
   const handleLike = async (id: number) => {
     try {
       const res = await likePost(id);
-      const data = await res.data
+      const data = await res.data;
 
-      setDiscussions(prev => 
+      setDiscussions(prev =>
         prev.map(d => d.id === id ? { ...d, likes: data.likes, liked_by_user: data.liked } : d)
       );
+
       if (data.liked) {
-      await addUserPoints(1); 
-      toast.success('Liked! +1 point earned');
-    } else {
-      toast('Unliked');
+        await updateUserPoints(1); //  add 1 point on like
+        toast.success('Liked! +1 point earned');
+      } else {
+        await updateUserPoints(-1); // Unliked → lose point
+        toast.info('Unliked! -1 point removed');
     }
-      
     } catch (err) {
       console.error(err);
       toast.error('Failed to like post');
@@ -85,9 +85,6 @@ const CommunityPage = () => {
   const handleAddFriend = (username: string) => {
     toast.success(`Friend request sent to ${username}!`);
   };
-
-
- 
 
   return (
     <Layout>

@@ -5,6 +5,9 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {jwtDecode} from 'jwt-decode';
 import { createDonation } from '@/api/donation';
+import { addUserPoints } from '@/api/points';
+
+
 
 const donationSchemes = [
   {
@@ -73,7 +76,7 @@ const PaymentPage: React.FC = () => {
         description: selectedSchemeData.description,
         impact: selectedSchemeData.impact,
       }, token || '');
-
+      await addUserPoints(100);
       setMessage('Donation successful! Thank you 💙');
       setAmount('');
       setSelectedSchemeId('');
