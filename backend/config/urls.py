@@ -30,5 +30,11 @@ urlpatterns = [
         path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
         path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     ])),
+    # Donations app
+    path('api/donations/', include('donations.urls')),
+
+    # Donation stats API (better to keep under api/)
+    path('api/donation-stats/', include('donation_stats.urls')),
+    path('api/', include('friends.urls')),
 
 ]

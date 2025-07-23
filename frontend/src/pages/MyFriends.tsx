@@ -1,65 +1,41 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card, CardContent, CardDescription, CardHeader, CardTitle,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Users, MessageCircle, Search, Fish, Trophy, Send } from 'lucide-react';
+import {
+  Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger,
+} from '@/components/ui/sheet';
+import { Users, MessageCircle, Search, Fish, Send } from 'lucide-react';
 import { toast } from 'sonner';
+import axiosInstance from '@/api/friends';
+
+
 
 const MyFriends = () => {
+
   const [searchQuery, setSearchQuery] = useState('');
   const [messageText, setMessageText] = useState('');
-  const [friends] = useState([
-    {
-      id: 1,
-      username: 'oceanlover23',
-      fullName: 'Marina Santos',
-      marineCharacter: 'turtle',
-      points: 1250,
-      status: 'online' as const,
-      lastSeen: 'now'
-    },
-    {
-      id: 2,
-      username: 'coralkeeper',
-      fullName: 'David Kim',
-      marineCharacter: 'octopus',
-      points: 890,
-      status: 'recently' as const,
-      lastSeen: '5 minutes ago'
-    },
-    {
-      id: 3,
-      username: 'deepseadiver',
-      fullName: 'Sarah Ocean',
-      marineCharacter: 'shark',
-      points: 2100,
-      status: 'offline' as const,
-      lastSeen: '2 hours ago'
-    },
-    {
-      id: 4,
-      username: 'whalewatcher',
-      fullName: 'Alex Blue',
-      marineCharacter: 'whale',
-      points: 750,
-      status: 'online' as const,
-      lastSeen: 'now'
-    },
-    {
-      id: 5,
-      username: 'seahorsefan',
-      fullName: 'Luna Pearl',
-      marineCharacter: 'seahorse',
-      points: 950,
-      status: 'recently' as const,
-      lastSeen: '15 minutes ago'
-    }
-  ]);
+  const [friends, setFriends] = useState<any[]>([]);
+
+  // Load friends from backend
+  useEffect(() => {
+    const fetchFriends = async () => {
+      try {
+        const res = await axiosInstance.get('/api/friends/');
+        setFriends(res.data);
+      } catch (err) {
+        console.error('Failed to fetch friends:', err);
+        toast.error('Unable to load friends');
+      }
+    };
+
+    fetchFriends();
+  }, []);
 
   const getCharacterEmoji = (character: string) => {
     const emojis: { [key: string]: string } = {
@@ -68,7 +44,7 @@ const MyFriends = () => {
       whale: '🐋',
       octopus: '🐙',
       shark: '🦈',
-      seahorse: '🦄'
+      seahorse: '🦄',
     };
     return emojis[character] || '🐠';
   };
@@ -92,7 +68,7 @@ const MyFriends = () => {
   };
 
   const filteredFriends = friends.filter(friend =>
-    friend.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    friend.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     friend.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -120,7 +96,24 @@ const MyFriends = () => {
           </p>
         </div>
 
-        {/* Search Bar */}
+        {/* Action Buttons */}
+        <div className="flex justify-center gap-4 mt-4">
+          <Button
+            className="bg-cyan-600 hover:bg-cyan-700 text-white"
+            onClick={() => window.location.href = '/friend-requests'}
+          >
+            View Friend Requests
+          </Button>
+          <Button
+            className="bg-cyan-600 hover:bg-cyan-700 text-white"
+            onClick={() => window.location.href = '/send-request'}
+          >
+            Send Friend Request
+          </Button>
+        </div>
+
+
+        {/* Search */}
         <Card className="bg-white/20 backdrop-blur-md border-white/30">
           <CardContent className="pt-6">
             <div className="relative">
@@ -135,7 +128,7 @@ const MyFriends = () => {
           </CardContent>
         </Card>
 
-        {/* Friends Stats */}
+        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card className="bg-white/20 backdrop-blur-md border-white/30">
             <CardContent className="pt-6 text-center">
@@ -151,7 +144,11 @@ const MyFriends = () => {
           </Card>
           <Card className="bg-white/20 backdrop-blur-md border-white/30">
             <CardContent className="pt-6 text-center">
-              <p className="text-3xl font-bold text-white">{Math.round(friends.reduce((sum, f) => sum + f.points, 0) / friends.length)}</p>
+              <p className="text-3xl font-bold text-white">
+                {friends.length > 0
+                  ? Math.round(friends.reduce((sum, f) => sum + f.points, 0) / friends.length)
+                  : 0}
+              </p>
               <p className="text-white/70">Avg Points</p>
             </CardContent>
           </Card>
@@ -159,7 +156,7 @@ const MyFriends = () => {
 
         {/* Friends List */}
         <div className="space-y-4">
-          {filteredFriends.map((friend) => (
+          {filteredFriends.map(friend => (
             <Card key={friend.id} className="bg-white/20 backdrop-blur-md border-white/30">
               <CardHeader>
                 <div className="flex items-center justify-between">
@@ -167,13 +164,13 @@ const MyFriends = () => {
                     <div className="relative">
                       <Avatar className="h-16 w-16">
                         <AvatarFallback className="bg-cyan-600 text-white text-xl">
-                          {getCharacterEmoji(friend.marineCharacter)}
+                          {getCharacterEmoji(friend.marine_character)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(friend.status)} rounded-full border-2 border-white`}></div>
+                      <div className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(friend.status)} rounded-full border-2 border-white`} />
                     </div>
                     <div className="flex-1">
-                      <CardTitle className="text-white">{friend.fullName}</CardTitle>
+                      <CardTitle className="text-white">{friend.full_name}</CardTitle>
                       <CardDescription className="text-white/70">@{friend.username}</CardDescription>
                       <div className="flex items-center mt-2 space-x-4">
                         <div className="flex items-center">
@@ -189,11 +186,7 @@ const MyFriends = () => {
                   <div className="flex items-center space-x-2">
                     <Sheet>
                       <SheetTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-white hover:bg-white/20"
-                        >
+                        <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
                           <MessageCircle className="w-4 h-4" />
                         </Button>
                       </SheetTrigger>
@@ -202,14 +195,12 @@ const MyFriends = () => {
                           <SheetTitle className="flex items-center">
                             <Avatar className="h-8 w-8 mr-2">
                               <AvatarFallback className="bg-cyan-600 text-white">
-                                {getCharacterEmoji(friend.marineCharacter)}
+                                {getCharacterEmoji(friend.marine_character)}
                               </AvatarFallback>
                             </Avatar>
-                            Message {friend.fullName}
+                            Message {friend.full_name}
                           </SheetTitle>
-                          <SheetDescription>
-                            Send a message to your ocean buddy!
-                          </SheetDescription>
+                          <SheetDescription>Send a message to your ocean buddy!</SheetDescription>
                         </SheetHeader>
                         <div className="mt-6 space-y-4">
                           <div className="space-y-2">
@@ -222,8 +213,8 @@ const MyFriends = () => {
                               className="w-full p-3 border rounded-lg resize-none"
                             />
                           </div>
-                          <Button 
-                            onClick={() => handleSendMessage(friend.fullName)}
+                          <Button
+                            onClick={() => handleSendMessage(friend.full_name)}
                             className="w-full bg-cyan-600 hover:bg-cyan-700 text-white"
                           >
                             <Send className="w-4 h-4 mr-2" />
@@ -237,14 +228,15 @@ const MyFriends = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between text-sm text-white/70">
-                  <span>Marine Character: {friend.marineCharacter}</span>
-                  <span>Last seen: {friend.lastSeen}</span>
+                  <span>Marine Character: {friend.marine_character}</span>
+                  <span>Last seen: {friend.last_seen}</span>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
+        {/* Empty State */}
         {filteredFriends.length === 0 && (
           <Card className="bg-white/20 backdrop-blur-md border-white/30">
             <CardContent className="pt-6 text-center">

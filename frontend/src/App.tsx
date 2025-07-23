@@ -18,6 +18,8 @@ import MyFriends from "./pages/MyFriends";
 import PaymentPage from "./pages/PaymentPage";
 import NotFound from "./pages/NotFound";
 import MarineCategories from "./pages/MarineCategories";
+import SendFriendRequest from "./pages/SendFriendRequest";
+import FriendRequests from "./pages/FriendRequests";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +44,8 @@ const App = () => (
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/marine-mammals" element={<MarineCategories/>}/>
+            <Route path="/send-request" element={<SendFriendRequest/>}></Route>
+            <Route path="/friend-requests" element={<FriendRequests/>}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
