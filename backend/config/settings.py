@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'donations',
     'donation_stats',
     'friends',
+    'message',
     'ocean.apps.OceanConfig',
     'rest_framework',
     'rest_framework_simplejwt',

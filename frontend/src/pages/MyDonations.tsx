@@ -1,58 +1,39 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Heart, Calendar, DollarSign, Fish, Waves, Shell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '@/api';  
 
 const MyDonations = () => {
   const navigate = useNavigate();
-  const [donations] = useState([
-    {
-      id: 1,
-      scheme: 'Coral Reef Protection',
-      amount: 50,
-      date: '2024-01-15',
-      status: 'completed',
-      description: 'Help protect coral reefs from bleaching and pollution',
-      impact: 'Funded protection of 100 sq ft of coral reef'
-    },
-    {
-      id: 2,
-      scheme: 'Sea Turtle Conservation',
-      amount: 75,
-      date: '2024-01-10',
-      status: 'completed',
-      description: 'Support sea turtle nesting beach protection',
-      impact: 'Protected 5 sea turtle nests'
-    },
-    {
-      id: 3,
-      scheme: 'Ocean Cleanup Initiative',
-      amount: 100,
-      date: '2025-01-05',
-      status: 'completed',
-      description: 'Remove plastic waste from ocean waters',
-      impact: 'Removed 50 lbs of plastic waste'
-    },
-    {
-      id: 4,
-      scheme: 'Marine Research Fund',
-      amount: 25,
-      date: '2025-01-01',
-      status: 'completed',
-      description: 'Support marine biology research projects',
-      impact: 'Funded 2 hours of research'
-    }
-  ]);
+  const [donations, setDonations] = useState([]);
+  const [totalDonated, setTotalDonated] = useState(0);
+  const [oceanPoints, setOceanPoints] = useState(0);
 
-  const totalDonated = donations.reduce((sum, donation) => sum + donation.amount, 0);
+  useEffect(() => {
+    const fetchDonations = async () => {
+      try {
+        // Use apiClient instead of axios here
+        const response = await apiClient.get('donation-stats/stats/');
+        setDonations(response.data.donations || []);
+        setTotalDonated(response.data.total_amount || 0);
+        setOceanPoints(response.data.ocean_points || 0);
+      } catch (error) {
+        console.error('Failed to fetch donation stats:', error);
+      }
+    };
+
+    fetchDonations();
+  }, []);
 
   const handleDonateNow = () => {
     navigate('/payment');
   };
+
+
 
   return (
     <Layout>
@@ -88,7 +69,7 @@ const MyDonations = () => {
                 <p className="text-white/70">Donations Made</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-white">{totalDonated * 2}</p>
+                <p className="text-3xl font-bold text-white">{oceanPoints}</p>
                 <p className="text-white/70">Ocean Points Earned</p>
               </div>
             </div>
@@ -97,7 +78,7 @@ const MyDonations = () => {
 
         {/* Donate Now Button */}
         <div className="text-center">
-          <Button 
+          <Button
             onClick={handleDonateNow}
             className="bg-red-600 hover:bg-red-700 text-white text-lg px-8 py-3 ripple-effect"
             size="lg"
@@ -148,7 +129,7 @@ const MyDonations = () => {
           ))}
         </div>
 
-        {/* Impact Summary */}
+        {/* Impact Summary (Optional Static Block) */}
         <Card className="bg-white/20 backdrop-blur-md border-white/30">
           <CardHeader>
             <CardTitle className="text-white">Your Impact</CardTitle>
@@ -158,10 +139,10 @@ const MyDonations = () => {
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-white">Environmental Impact</h3>
                 <ul className="space-y-2 text-white/90">
-                  <li>• Protected 100 sq ft of coral reef</li>
-                  <li>• Saved 5 sea turtle nests</li>
-                  <li>• Removed 50 lbs of ocean plastic</li>
-                  <li>• Funded 2 hours of marine research</li>
+                  <li>• Protected coral reefs</li>
+                  <li>• Saved endangered marine species</li>
+                  <li>• Removed plastic waste</li>
+                  <li>• Funded marine research</li>
                 </ul>
               </div>
               <div className="space-y-3">
