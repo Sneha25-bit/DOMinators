@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'ocean.apps.OceanConfig',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',

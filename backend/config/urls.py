@@ -17,6 +17,6 @@ urlpatterns = [
     path('api/donations/', include('donations.urls')),
     path('api/donation-stats/', include('donation_stats.urls')),
     path('api/', include('friends.urls')),
-     path('api/messages/', include('message.urls')),
+    path('api/messages/', include('message.urls')),
 
 ]

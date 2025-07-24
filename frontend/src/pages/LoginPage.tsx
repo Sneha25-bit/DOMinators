@@ -41,7 +41,7 @@ const LoginPage = () => {
     login(user, access);
     
     toast.success('Welcome back to Ocean Explorer!');
-    navigate('/home');
+    window.location.href = '/home';
   } catch (error: any) {
     toast.error('Invalid username or password');
   }
