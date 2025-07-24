@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axiosInstance from '@/api/friends'; 
 
 interface User {
   id: string;
@@ -16,10 +17,11 @@ interface User {
 interface AuthContextType {
   user: User | null;
   accessToken: string | null;
-  login: (userData: User, token:string) => void;
+  login: (userData: User, token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
   updateUserPoints: (points: number) => void;
+  refreshUser: () => Promise<void>; 
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (userData: User, token:string) => {
+  const login = (userData: User, token: string) => {
     setUser(userData);
     setAccessToken(token);
     localStorage.setItem('oceanUser', JSON.stringify(userData));
@@ -53,11 +55,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('oceanToken');
   };
 
-  const updateUserPoints = (points: number) => {
+  const updateUserPoints = async (points: number) => {
     if (user) {
       const updatedUser = { ...user, points: user.points + points };
       setUser(updatedUser);
       localStorage.setItem('oceanUser', JSON.stringify(updatedUser));
+      await refreshUser();
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      const res = await axiosInstance.get('/api/user/me/'); // your user profile endpoint
+      setUser(res.data);
+      localStorage.setItem('oceanUser', JSON.stringify(res.data));
+    } catch (error) {
+      console.error('Failed to refresh user:', error);
     }
   };
 
@@ -68,7 +81,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       login,
       logout,
       isAuthenticated: !!user,
-      updateUserPoints
+      updateUserPoints,
+      refreshUser,
     }}>
       {children}
     </AuthContext.Provider>

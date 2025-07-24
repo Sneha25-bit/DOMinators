@@ -5,6 +5,16 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {jwtDecode} from 'jwt-decode';
 import { createDonation } from '@/api/donation';
+import { addUserPoints } from '@/api/points';
+import { logUserActivity } from '@/api/dashboard';
+
+const logActivity = async (type: 'donation', description: string, points: number) => {
+  try {
+    await logUserActivity({ type, description, points });
+  } catch (err) {
+    console.error('Failed to log activity:', err);
+  }
+};
 
 const donationSchemes = [
   {
@@ -61,6 +71,14 @@ const PaymentPage: React.FC = () => {
       return;
     }
 
+    const donationAmount = parseFloat(amount);
+    if (isNaN(donationAmount) || donationAmount <= 0) {
+      setMessage('Please enter a valid donation amount.');
+      return;
+    }
+
+    const points = Math.floor(donationAmount);
+
     setLoading(true);
     setMessage('');
 
@@ -73,6 +91,14 @@ const PaymentPage: React.FC = () => {
         description: selectedSchemeData.description,
         impact: selectedSchemeData.impact,
       }, token || '');
+
+      await addUserPoints(points);
+
+      await logActivity(
+      'donation',
+      `Donated $${donationAmount} to ${selectedSchemeData.name}`,
+      points
+    );
 
       setMessage('Donation successful! Thank you 💙');
       setAmount('');

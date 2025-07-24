@@ -26,10 +26,8 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/ocean-ai/', include('ocean_ai.urls')),
     path('api/community/', include('community.urls')),
-    path('api/users/', include([
-        path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-        path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    ])),
+    path('api/users/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # Donations app
     path('api/donations/', include('donations.urls')),
 
