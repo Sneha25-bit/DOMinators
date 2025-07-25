@@ -111,6 +111,7 @@ const GamesPage = () => {
       updateUserPoints(50);
       toast.success('You won! +50 points!');
       await logActivity('game', 'Won Tic Tac Toe', 50);
+      
       return;
     }
 
@@ -156,25 +157,26 @@ const GamesPage = () => {
 
   // Guess the Fish Logic
   const handleFishAnswer = async (selectedAnswer: number) => {
-    
-    if (selectedAnswer === fishQuestions[currentFish].correct) {
-      setScore(score + 1);
-      updateUserPoints(25);
-      toast.success('Correct! +25 points!');
-    } else {
-      toast.error('Wrong answer! Try again next time.');
-    }
+  const isCorrect = selectedAnswer === fishQuestions[currentFish].correct;
+  const isLastQuestion = currentFish === fishQuestions.length - 1;
+  const newScore = isCorrect ? score + 1 : score;
 
-    if (currentFish < fishQuestions.length - 1) {
-      setCurrentFish(currentFish + 1);
-    } else {
-      setFishGameStatus('ended');
-      const totalPoints = score * 25;
-      updateUserPoints(totalPoints);
-      toast.success(`Game complete! Final score: ${score + (selectedAnswer === fishQuestions[currentFish].correct ? 1 : 0)}/${fishQuestions.length}`);
-      await logActivity('game', 'Completed Guess the Fish Quiz', totalPoints);
-    }
-  };
+  if (isCorrect) {
+    setScore(newScore);
+    updateUserPoints(25);
+    toast.success('Correct! +25 points!');
+  } else {
+    toast.error('Wrong answer! Try again next time.');
+  }
+
+  if (!isLastQuestion) {
+    setCurrentFish(prev => prev + 1);
+  } else {
+    setFishGameStatus('ended');
+    toast.success(`Game complete! Final score: ${newScore}/${fishQuestions.length}`);
+    await logActivity('game', 'Completed Guess the Fish Quiz', newScore * 25);
+  }
+};
 
   const resetGuessTheFish = () => {
     setCurrentFish(0);

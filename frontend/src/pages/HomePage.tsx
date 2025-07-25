@@ -113,7 +113,7 @@ const HomePage = () => {
         {/* Welcome Section */}
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4 float-animation">
-            Welcome back, {user?.fullName}! 🌊
+            Welcome back, {user?.fullName || user?.username || "Explorer"}! 🌊
           </h1>
           <p className="text-white/80 text-lg mb-6">
             Ready to dive into today's ocean discoveries?

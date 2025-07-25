@@ -1,6 +1,10 @@
 from rest_framework import serializers
+from django.db.models import Sum
 from .models import CustomUser,Activity,Achievement,UserAchievement
 from django.contrib.auth.password_validation import validate_password
+from donations.models import Donation
+from community.models import Discussion
+from friends.models import Friend
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -20,9 +24,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    fullName = serializers.CharField(source='full_name')
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = [
+            'id', 'username', 'email', 'phone', 'marine_character',
+            'join_date', 'points', 'status', 'fullName'
+        ]
         
 class ActivitySerializer(serializers.ModelSerializer):
     time = serializers.SerializerMethodField()
@@ -74,16 +82,13 @@ class UserDashboardSerializer(serializers.ModelSerializer):
         return obj.activities.filter(type='game').count()
 
     def get_total_donated(self, obj):
-        # Replace with your actual donation model/logic
-        return 250
+        return Donation.objects.filter(user=obj).aggregate(total=Sum('amount'))['total'] or 0
 
     def get_posts_made(self, obj):
-        # Replace with your actual community post model/logic
-        return 8
+        return Discussion.objects.filter(author=obj).count()
 
     def get_friends(self, obj):
-        # Replace with your actual friends model/logic
-        return 15
+        return Friend.objects.filter(user=obj).count()
     
 class CreateActivitySerializer(serializers.ModelSerializer):
     class Meta:
