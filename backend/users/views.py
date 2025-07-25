@@ -2,7 +2,8 @@ from rest_framework import generics, views, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .models import CustomUser
-from .serializers import RegisterSerializer, CustomUserSerializer, UserDashboardSerializer, CreateActivitySerializer
+from .serializers import RegisterSerializer, CustomUserSerializer, UserDashboardSerializer, CreateActivitySerializer,LeaderboardUserSerializer
+from rest_framework.views import APIView
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -45,3 +46,12 @@ class AddUserActivityView(views.APIView):
                 'new_points': request.user.points
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class LeaderboardView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        users = CustomUser.objects.order_by('-points')[:10]
+        serializer = LeaderboardUserSerializer(users, many=True)
+        return Response(serializer.data)     

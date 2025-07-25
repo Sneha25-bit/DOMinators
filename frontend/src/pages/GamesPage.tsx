@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,13 +33,34 @@ const GamesPage = () => {
   const [score, setScore] = useState(0);
   const [fishGameStatus, setFishGameStatus] = useState<'playing' | 'ended'>('playing');
 
-  const leaderboard = [
-    { rank: 1, username: 'oceanlover23', points: 2450, character: 'whale' },
-    { rank: 2, username: 'coralkeeper', points: 2100, character: 'turtle' },
-    { rank: 3, username: 'deepseadiver', points: 1890, character: 'shark' },
-    { rank: 4, username: user?.username || 'you', points: user?.points || 0, character: user?.marineCharacter || 'dolphin' },
-    { rank: 5, username: 'marinebiologist', points: 1650, character: 'octopus' }
-  ];
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+
+  useEffect(() => {
+  const fetchLeaderboard = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/users/leaderboard/");
+      if (!res.ok) {
+        throw new Error("Failed to fetch leaderboard");
+      }
+      const data = await res.json();
+      const ranked = data
+        .sort((a: any, b: any) => b.points - a.points)
+        .map((player: any, index: number) => ({
+          rank: index + 1,
+          username: player.username,
+          points: player.points,
+          character: player.marine_character,
+        }));
+      setLeaderboard(ranked);
+    } catch (err) {
+      console.error("Failed to load leaderboard:", err);
+      toast.error("Couldn't load leaderboard.");
+    }
+  };
+
+  fetchLeaderboard();
+}, []);
+
 
   const fishQuestions = [
     {
