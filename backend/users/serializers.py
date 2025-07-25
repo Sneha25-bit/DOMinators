@@ -105,3 +105,9 @@ class CreateActivitySerializer(serializers.ModelSerializer):
         user.save()
 
         return activity
+    
+
+class LeaderboardUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'marine_character', 'points']
