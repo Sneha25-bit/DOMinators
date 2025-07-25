@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { User, Trophy, Heart, MessageSquare, Calendar, Fish } from 'lucide-react';
 import { fetchUserDashboard } from '@/api/dashboard';
 import { toast } from 'sonner';
-
+import ProgressCard from '@/components/progressCard';
 
 const UserDashboard = () => {
   const { accessToken } = useAuth();
@@ -166,23 +166,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Progress Section */}
-        <Card className="bg-white/20 backdrop-blur-md border-white/30">
-          <CardHeader>
-            <CardTitle className="text-white">Progress to Next Level</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between text-white">
-                <span>Ocean Explorer Level 3</span>
-                <span>{dashboard?.points || 0} / 500 points</span>
-              </div>
-              <Progress value={(dashboard?.points || 0) / 5} className="w-full" />
-              <p className="text-white/70 text-sm">
-                Earn {500 - (dashboard?.points || 0)} more points to reach the next level and unlock exclusive features!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <ProgressCard dashboard={dashboard}/>
       </div>
     </Layout>
   );

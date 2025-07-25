@@ -24,9 +24,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    fullName = serializers.CharField(source='full_name')
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = [
+            'id', 'username', 'email', 'phone', 'marine_character',
+            'join_date', 'points', 'status', 'fullName'
+        ]
         
 class ActivitySerializer(serializers.ModelSerializer):
     time = serializers.SerializerMethodField()
