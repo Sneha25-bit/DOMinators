@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,6 +9,40 @@ import { User, Trophy, Heart, MessageSquare, Calendar, Fish } from 'lucide-react
 import { fetchUserDashboard } from '@/api/dashboard';
 import { toast } from 'sonner';
 
+const levels = [
+  { name: 'Ocean Explorer Level 1', minPoints: 0 },
+  { name: 'Ocean Explorer Level 2', minPoints: 100 },
+  { name: 'Ocean Explorer Level 3', minPoints: 250 },
+  { name: 'Ocean Explorer Level 4', minPoints: 500 },
+  { name: 'Ocean Master Level 5', minPoints: 1000 }
+];
+
+const getLevelInfo = (points: number) => {
+  let currentLevel = levels[0];
+  let nextLevel = null;
+
+  for (let i = 0; i < levels.length; i++) {
+    if (points >= levels[i].minPoints) {
+      currentLevel = levels[i];
+      nextLevel = levels[i + 1] || null;
+    }
+  }
+
+  const nextLevelPoints = nextLevel ? nextLevel.minPoints : currentLevel.minPoints;
+  const progress = nextLevel
+    ? ((points - currentLevel.minPoints) / (nextLevel.minPoints - currentLevel.minPoints)) * 100
+    : 100;
+
+  const pointsRemaining = nextLevel ? nextLevel.minPoints - points : 0;
+
+  return {
+    currentLevel: currentLevel.name,
+    nextLevel: nextLevel?.name || 'Max Level',
+    progress: Math.min(progress, 100),
+    pointsRemaining,
+    nextLevelPoints
+  };
+};
 
 const UserDashboard = () => {
   const { accessToken } = useAuth();
@@ -48,6 +81,8 @@ const UserDashboard = () => {
     return <div className="text-red-500 text-center mt-10">Failed to load dashboard. Please try again later.</div>;
   }
   if (loading) return <div className="text-white text-center mt-10">Loading dashboard...</div>;
+
+  const levelInfo = getLevelInfo(dashboard?.points || 0);
 
   return (
     <Layout>
@@ -125,9 +160,7 @@ const UserDashboard = () => {
                       <p className="text-white/60 text-sm">{activity.time}</p>
                     </div>
                   </div>
-                  <Badge className="bg-cyan-600 text-white">
-                    +{activity.points} pts
-                  </Badge>
+                  <Badge className="bg-cyan-600 text-white">+{activity.points} pts</Badge>
                 </div>
               ))}
             </CardContent>
@@ -165,7 +198,7 @@ const UserDashboard = () => {
           </Card>
         </div>
 
-        {/* Progress Section */}
+        {/* Dynamic Progress Section */}
         <Card className="bg-white/20 backdrop-blur-md border-white/30">
           <CardHeader>
             <CardTitle className="text-white">Progress to Next Level</CardTitle>
@@ -173,12 +206,14 @@ const UserDashboard = () => {
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between text-white">
-                <span>Ocean Explorer Level 3</span>
-                <span>{dashboard?.points || 0} / 500 points</span>
+                <span>{levelInfo.currentLevel}</span>
+                <span>{dashboard?.points} pts</span>
               </div>
-              <Progress value={(dashboard?.points || 0) / 5} className="w-full" />
+              <Progress value={levelInfo.progress} className="w-full" />
               <p className="text-white/70 text-sm">
-                Earn {500 - (dashboard?.points || 0)} more points to reach the next level and unlock exclusive features!
+                {levelInfo.pointsRemaining > 0
+                  ? `Earn ${levelInfo.pointsRemaining} more points to reach ${levelInfo.nextLevel}.`
+                  : `You've reached the maximum level! 🎉`}
               </p>
             </div>
           </CardContent>
