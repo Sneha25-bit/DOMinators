@@ -1,12 +1,28 @@
-
 import { useState, useEffect, useRef } from "react"
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Waves, Anchor, Eye, Droplets } from "lucide-react"
-import Layout from "@/components/Layout"
+import { Waves, Anchor, Eye, Droplets,Fish,Compass } from "lucide-react"
+
+// Import marine life images
+import bottlenoseDolphinImg from "@/assets/marine-life/bottlenose-dolphin.jpg"
+import bluefinTunaImg from "@/assets/marine-life/bluefin-tuna.jpg"
+import giantKelpImg from "@/assets/marine-life/giant-kelp.jpg"
+import greenSeaTurtleImg from "@/assets/marine-life/green-sea-turtle.jpg"
+import lanternfishImg from "@/assets/marine-life/lanternfish.jpg"
+import vampireSquidImg from "@/assets/marine-life/vampire-squid.jpg"
+import hatchetfishImg from "@/assets/marine-life/hatchetfish.jpg"
+import anglerfishImg from "@/assets/marine-life/anglerfish.jpg"
+import giantSquidImg from "@/assets/marine-life/giant-squid.jpg"
+import gulperEelImg from "@/assets/marine-life/gulper-eel.jpg"
+import dumboOctopusImg from "@/assets/marine-life/dumbo-octopus.jpg"
+import seaPigImg from "@/assets/marine-life/sea-pig.jpg"
+import tripodFishImg from "@/assets/marine-life/tripod-fish.jpg"
+import marianaSnailfishImg from "@/assets/marine-life/mariana-snailfish.jpg"
+import xenophyophoreImg from "@/assets/marine-life/xenophyophore.jpg"
+import deepSeaAmphipodImg from "@/assets/marine-life/deep-sea-amphipod.jpg"
 
 interface MarineLife {
   id: string
@@ -19,6 +35,7 @@ interface MarineLife {
   depth: string
   funFact: string
   position: { x: number; y: number }
+  image: string
 }
 
 interface OceanZone {
@@ -51,6 +68,7 @@ const oceanZones: OceanZone[] = [
         depth: "0-200m",
         funFact: "Dolphins have names for each other - unique whistle signatures!",
         position: { x: 20, y: 30 },
+        image: bottlenoseDolphinImg,
       },
       {
         id: "tuna",
@@ -63,6 +81,7 @@ const oceanZones: OceanZone[] = [
         depth: "0-250m",
         funFact: "Can swim up to 70 km/h and regulate their body temperature!",
         position: { x: 70, y: 50 },
+        image: bluefinTunaImg,
       },
       {
         id: "kelp",
@@ -75,6 +94,7 @@ const oceanZones: OceanZone[] = [
         depth: "0-40m",
         funFact: "Can grow up to 2 feet per day - one of the fastest growing organisms!",
         position: { x: 10, y: 70 },
+        image: giantKelpImg,
       },
       {
         id: "sea-turtle",
@@ -87,6 +107,7 @@ const oceanZones: OceanZone[] = [
         depth: "0-200m",
         funFact: "They return to the same beach where they were born to lay eggs!",
         position: { x: 50, y: 20 },
+        image: greenSeaTurtleImg,
       },
     ],
   },
@@ -109,6 +130,7 @@ const oceanZones: OceanZone[] = [
         depth: "200-1000m",
         funFact: "They make the largest migration on Earth - vertically every day!",
         position: { x: 30, y: 40 },
+        image: lanternfishImg,
       },
       {
         id: "vampire-squid",
@@ -121,6 +143,7 @@ const oceanZones: OceanZone[] = [
         depth: "600-900m",
         funFact: "Can turn itself inside out when threatened!",
         position: { x: 60, y: 60 },
+        image: vampireSquidImg,
       },
       {
         id: "hatchetfish",
@@ -133,6 +156,7 @@ const oceanZones: OceanZone[] = [
         depth: "200-1500m",
         funFact: "Uses bioluminescence to match the light from above - perfect camouflage!",
         position: { x: 80, y: 30 },
+        image: hatchetfishImg,
       },
     ],
   },
@@ -155,6 +179,7 @@ const oceanZones: OceanZone[] = [
         depth: "1000-3000m",
         funFact: "Males are much smaller and fuse permanently to females!",
         position: { x: 40, y: 50 },
+        image: anglerfishImg,
       },
       {
         id: "giant-squid",
@@ -167,6 +192,7 @@ const oceanZones: OceanZone[] = [
         depth: "300-1000m",
         funFact: "Has the largest eyes in the animal kingdom - up to 25cm across!",
         position: { x: 20, y: 70 },
+        image: giantSquidImg,
       },
       {
         id: "gulper-eel",
@@ -179,6 +205,7 @@ const oceanZones: OceanZone[] = [
         depth: "500-3000m",
         funFact: "Can unhinge its massive jaw to swallow prey larger than itself!",
         position: { x: 70, y: 40 },
+        image: gulperEelImg,
       },
     ],
   },
@@ -201,6 +228,7 @@ const oceanZones: OceanZone[] = [
         depth: "3000-7000m",
         funFact: "Named after Disney's Dumbo elephant due to its ear-like fins!",
         position: { x: 50, y: 60 },
+        image: dumboOctopusImg,
       },
       {
         id: "sea-pig",
@@ -213,6 +241,7 @@ const oceanZones: OceanZone[] = [
         depth: "4000-6000m",
         funFact: "They move in herds across the seafloor like underwater pigs!",
         position: { x: 30, y: 80 },
+        image: seaPigImg,
       },
       {
         id: "tripod-fish",
@@ -225,6 +254,7 @@ const oceanZones: OceanZone[] = [
         depth: "900-6000m",
         funFact: "Stands on three elongated fins like a tripod to save energy!",
         position: { x: 80, y: 70 },
+        image: tripodFishImg,
       },
     ],
   },
@@ -247,6 +277,7 @@ const oceanZones: OceanZone[] = [
         depth: "6000-8000m+",
         funFact: "Holds the record for deepest living fish ever recorded!",
         position: { x: 40, y: 50 },
+        image: marianaSnailfishImg,
       },
       {
         id: "xenophyophore",
@@ -259,6 +290,7 @@ const oceanZones: OceanZone[] = [
         depth: "4000-10000m+",
         funFact: "Despite being single-celled, they can grow larger than a dinner plate!",
         position: { x: 60, y: 70 },
+        image: xenophyophoreImg,
       },
       {
         id: "amphipod",
@@ -271,6 +303,7 @@ const oceanZones: OceanZone[] = [
         depth: "6000-11000m",
         funFact: "Can survive pressure over 1000 times greater than at sea level!",
         position: { x: 20, y: 80 },
+        image: deepSeaAmphipodImg,
       },
     ],
   },
@@ -329,21 +362,6 @@ export function MarineEcosystemPageContent() {
     }
   }, [])
 
-  const getLifeIcon = (type: string) => {
-    switch (type) {
-      case "fish":
-        return "🐟"
-      case "mammal":
-        return "🐋"
-      case "invertebrate":
-        return "🦑"
-      case "plant":
-        return "🌿"
-      default:
-        return "🐟"
-    }
-  }
-
   const handleDepthClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return
 
@@ -363,39 +381,148 @@ export function MarineEcosystemPageContent() {
     })
   }
 
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "fish":
+        return <Fish className="h-3 w-3" />
+      case "mammal":
+        return <Waves className="h-3 w-3" />
+      case "invertebrate":
+        return <Eye className="h-3 w-3" />
+      case "plant":
+        return <Droplets className="h-3 w-3" />
+      default:
+        return <Fish className="h-3 w-3" />
+    }
+  }
+
   const animationStyles = `
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Floating animation for marine life icons */
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0) rotate(0deg);
   }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  25% {
+    transform: translate(-50%, -50%) translateY(-6px) rotate(1deg);
   }
+  50% {
+    transform: translate(-50%, -50%) translateY(-12px) rotate(0deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateY(-6px) rotate(-1deg);
+  }
+}
+
+.float-animate {
+  animation: float 4s ease-in-out infinite;
+}
+
+.float-animate:nth-child(even) {
+  animation-delay: -2s;
+}
+
+.float-animate:nth-child(3n) {
+  animation-delay: -1s;
+}
+
+/* Glow effect for depth indicator */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.8);
+  }
+}
+
+.depth-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Ripple effect for marine life hover */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.marine-life-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.marine-life-btn:hover::before {
+  width: 120%;
+  height: 120%;
+}
 `
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-200 to-blue-900">
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 to-blue-900 relative">
       <style dangerouslySetInnerHTML={{ __html: animationStyles }} />
       
-      {/* Depth Progress Indicator */}
-      <div className="absolute right-6 top-24 bottom-1 z-30 w-16 cursor-pointer" onClick={handleDepthClick}>
-        <div className="relative h-full bg-gradient-to-b from-blue-300 via-blue-600 via-blue-900 via-slate-900 to-black rounded-full border-2 border-white/20 shadow-lg backdrop-blur-sm">
+      {/* Header */}
+      <div className="absolute top-0 left-0 right-0 z-30 bg-gradient-to-b from-white/90 to-transparent backdrop-blur-sm border-b border-white/20">
+        <div className="flex items-center justify-between p-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-500 rounded-lg text-white">
+              <Compass className="h-6 w-6" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Ocean Depth Explorer</h1>
+              <p className="text-sm text-gray-600">Journey through the ocean's mysterious layers</p>
+            </div>
+          </div>
+          <Badge variant="outline" className="bg-white/80 text-blue-700 border-blue-200">
+            {oceanZones.find(z => z.id === activeZone)?.name.split(' ')[0]} Zone
+          </Badge>
+        </div>
+      </div>
+      
+      {/* Improved Depth Progress Indicator */}
+      <div className="absolute right-4 top-32 bottom-4 z-30 w-20 cursor-pointer group" onClick={handleDepthClick}>
+        <div className="relative h-full bg-gradient-to-b from-blue-300 via-blue-600 via-blue-900 via-slate-900 to-black rounded-xl border-3 border-white/30 shadow-2xl backdrop-blur-md overflow-hidden">
+          
           {/* Zone markers and labels */}
           {oceanZones.map((zone, index) => {
-            // Position zones based on their actual scroll position in the page
             const position = (index / (oceanZones.length - 1)) * 100
             const isActive = activeZone === zone.id
 
             return (
               <div key={zone.id} className="absolute w-full" style={{ top: `${position}%` }}>
                 {/* Zone marker line */}
-                <div className="absolute left-0 w-full h-0.5 bg-white/40" />
+                <div className={`absolute left-0 w-full h-1 transition-all duration-300 ${
+                  isActive ? "bg-cyan-400 shadow-lg shadow-cyan-400/50" : "bg-white/40"
+                }`} />
 
-                {/* Zone depth label */}
-                <div className="absolute right-20 top-1/2 -translate-y-1/2">
+                {/* Zone depth label - positioned to avoid overlap */}
+                <div className="absolute -right-24 top-1/2 -translate-y-1/2 group-hover:-right-32 transition-all duration-300">
                   <div
-                    className={`px-2 py-1 rounded text-xs font-medium transition-all duration-300 ${
-                      isActive ? "bg-cyan-400 text-black scale-110 shadow-lg" : "bg-black/60 text-white/80"
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 whitespace-nowrap ${
+                      isActive 
+                        ? "bg-cyan-400 text-black scale-105 shadow-lg shadow-cyan-400/30" 
+                        : "bg-black/70 text-white/90 hover:bg-black/80"
                     }`}
                   >
                     {zone.depth}
@@ -404,8 +531,8 @@ export function MarineEcosystemPageContent() {
 
                 {/* Zone name (only for active zone) */}
                 {isActive && (
-                  <div className="absolute right-20 top-6">
-                    <div className="px-2 py-1 bg-cyan-400/90 text-black rounded text-xs font-bold whitespace-nowrap">
+                  <div className="absolute -right-24 top-8 group-hover:-right-32 transition-all duration-300">
+                    <div className="px-3 py-1 bg-cyan-400/90 text-black rounded-lg text-xs font-bold whitespace-nowrap shadow-lg">
                       {zone.name.split(" ")[0]} Zone
                     </div>
                   </div>
@@ -414,180 +541,259 @@ export function MarineEcosystemPageContent() {
             )
           })}
 
-          {/* Current position indicator */}
+          {/* Current position indicator - improved design */}
           <div
-            className="absolute left-1/2 -translate-x-1/2 w-6 h-6 transition-all duration-300"
+            className="absolute left-1/2 -translate-x-1/2 w-8 h-8 transition-all duration-300 depth-glow"
             style={{ top: `${scrollProgress * 100}%` }}
           >
-            <div className="w-full h-full bg-cyan-400 rounded-full border-2 border-white shadow-lg animate-pulse">
+            <div className="w-full h-full bg-cyan-400 rounded-full border-3 border-white shadow-2xl">
               <div className="absolute inset-1 bg-cyan-200 rounded-full" />
+              <div className="absolute inset-2 bg-white rounded-full opacity-60" />
             </div>
 
-            {/* Depth readout - now shows depth based on active zone */}
-            <div className="absolute right-8 top-1/2 -translate-y-1/2">
-              <div className="px-3 py-1 bg-cyan-400 text-black rounded-full text-sm font-bold shadow-lg whitespace-nowrap">
-                {(() => {
-                  // Calculate approximate depth based on active zone and scroll progress within that zone
-                  const zoneIndex = oceanZones.findIndex((z) => z.id === activeZone)
-                  const zoneProgress = scrollProgress * oceanZones.length - zoneIndex
+            {/* Depth readout - improved positioning */}
+            <div className="absolute -right-28 top-1/2 -translate-y-1/2 group-hover:-right-36 transition-all duration-300">
+              <div className="px-4 py-2 bg-cyan-400 text-black rounded-xl text-sm font-bold shadow-xl whitespace-nowrap border-2 border-white/30">
+                <div className="flex items-center gap-2">
+                  <Droplets className="h-3 w-3" />
+                  {(() => {
+                    const zoneIndex = oceanZones.findIndex((z) => z.id === activeZone)
+                    const zoneProgress = scrollProgress * oceanZones.length - zoneIndex
 
-                  let depth = 0
-                  switch (activeZone) {
-                    case "sunlight":
-                      depth = Math.round(zoneProgress * 200)
-                      break
-                    case "twilight":
-                      depth = Math.round(200 + zoneProgress * 800)
-                      break
-                    case "midnight":
-                      depth = Math.round(1000 + zoneProgress * 3000)
-                      break
-                    case "abyssal":
-                      depth = Math.round(4000 + zoneProgress * 2000)
-                      break
-                    case "hadal":
-                      depth = Math.round(6000 + zoneProgress * 5000)
-                      break
-                  }
+                    let depth = 0
+                    switch (activeZone) {
+                      case "sunlight":
+                        depth = Math.round(zoneProgress * 200)
+                        break
+                      case "twilight":
+                        depth = Math.round(200 + zoneProgress * 800)
+                        break
+                      case "midnight":
+                        depth = Math.round(1000 + zoneProgress * 3000)
+                        break
+                      case "abyssal":
+                        depth = Math.round(4000 + zoneProgress * 2000)
+                        break
+                      case "hadal":
+                        depth = Math.round(6000 + zoneProgress * 5000)
+                        break
+                    }
 
-                  return Math.max(0, Math.min(11000, depth))
-                })()}m deep
+                    return Math.max(0, Math.min(11000, depth))
+                  })()}m
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Depth scale markers */}
+          {/* Depth scale markers - improved visibility */}
           {[0, 200, 1000, 4000, 6000, 11000].map((depth, index) => {
             const position = (depth / 11000) * 100
             return (
               <div key={depth} className="absolute left-0" style={{ top: `${position}%` }}>
-                <div className="w-3 h-0.5 bg-white/60" />
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-white/80 font-mono">{depth}m</div>
+                <div className="w-4 h-0.5 bg-white/80" />
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-xs text-white/90 font-mono bg-black/40 px-1 rounded">
+                  {depth}m
+                </div>
               </div>
             )
           })}
 
-          {/* Surface indicator */}
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2">
-            <div className="px-2 py-1 bg-yellow-400 text-black rounded text-xs font-bold">Ocean Surface</div>
+          {/* Surface and floor indicators */}
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+            <div className="px-3 py-1 bg-yellow-400 text-black rounded-lg text-xs font-bold shadow-lg">
+              🌊 Surface
+            </div>
           </div>
 
-          {/* Ocean floor indicator */}
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
-            <div className="px-2 py-1 bg-gray-800 text-white rounded text-xs font-bold">Trench Floor</div>
+          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
+            <div className="px-3 py-1 bg-gray-800 text-white rounded-lg text-xs font-bold shadow-lg">
+              🏔️ Trench Floor
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div ref={containerRef} className="relative h-screen overflow-y-auto pt-0 pr-0 scrollbar-hide">
+      <div ref={containerRef} className="relative h-screen overflow-y-auto pt-20 scrollbar-hide">
         {oceanZones.map((zone, index) => (
           <div
             key={zone.id}
             ref={(el) => (zoneRefs.current[zone.id] = el)}
             className={`min-h-screen relative bg-gradient-to-b ${zone.color} transition-all duration-1000`}
           >
-            {/* Zone Info */}
-            <div className="absolute top-8 left-8 z-20">
-              <Card className="bg-white/90 backdrop-blur-sm max-w-md">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Anchor className="h-5 w-5" />
-                    {zone.name}
+            {/* Zone Info - improved positioning and design */}
+            <div className="absolute top-8 left-8 z-20 max-w-sm">
+              <Card className="bg-white/95 backdrop-blur-md border-white/30 shadow-2xl">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-3 text-lg">
+                    <div className="p-2 bg-blue-500 rounded-lg text-white">
+                      <Anchor className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="font-bold">{zone.name.split(' ')[0]} Zone</div>
+                      <div className="text-sm font-normal text-gray-600">{zone.name.split(' ').slice(1).join(' ')}</div>
+                    </div>
                   </CardTitle>
-                  <CardDescription className="flex items-center gap-2">
+                  <CardDescription className="flex items-center gap-2 text-blue-600 font-medium">
                     <Droplets className="h-4 w-4" />
-                    {zone.depth}
+                    Depth: {zone.depth}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm mb-3">{zone.description}</p>
-                  <div className="flex flex-wrap gap-1">
-                    {zone.characteristics.map((char, i) => (
-                      <Badge key={i} variant="secondary" className="text-xs">
-                        {char}
-                      </Badge>
-                    ))}
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-gray-700 leading-relaxed">{zone.description}</p>
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold text-gray-800">Key Characteristics:</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {zone.characteristics.map((char, i) => (
+                        <Badge key={i} variant="secondary" className="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200">
+                          {char}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-gray-200">
+                    <div className="text-xs text-gray-600 flex items-center gap-1">
+                      <Fish className="h-3 w-3" />
+                      {zone.life.length} species to discover
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Marine Life */}
+            {/* Marine Life - improved positioning constraints */}
             <div className="absolute inset-0 overflow-hidden">
-              {zone.life.map((life) => (
-                <Button
-                  key={life.id}
-                  variant="ghost"
-                  className="absolute p-2 hover:scale-110 transition-all duration-300 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full"
-                  style={{
-                    left: `${life.position.x}%`,
-                    top: `${life.position.y}%`,
-                    transform: "translate(-50%, -50%)",
-                  }}
-                  onClick={() => setSelectedLife(life)}
-                >
-                  <span className="text-2xl">{getLifeIcon(life.type)}</span>
-                </Button>
-              ))}
+              {/* Safe area boundaries - avoid overlap with UI elements */}
+              <div className="absolute inset-0" style={{ 
+                left: '30%', 
+                right: '12%', 
+                top: '15%', 
+                bottom: '10%' 
+              }}>
+                {zone.life.map((life) => (
+                  <Button
+                    key={life.id}
+                    variant="ghost"
+                    className="marine-life-btn absolute p-0 hover:scale-125 transition-all duration-500 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full border-2 border-white/40 hover:border-white/60 float-animate shadow-lg hover:shadow-2xl overflow-hidden group"
+                    style={{
+                      left: `${life.position.x}%`,
+                      top: `${life.position.y}%`,
+                      transform: "translate(-50%, -50%)",
+                      width: '64px',
+                      height: '64px',
+                    }}
+                    onClick={() => setSelectedLife(life)}
+                  >
+                    <div className="relative w-full h-full">
+                      <img
+                        src={life.image}
+                        alt={life.name}
+                        className="w-full h-full object-cover rounded-full transition-transform duration-300 group-hover:scale-110"
+                      />
+                      {/* Type indicator */}
+                      <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-md">
+                        {getTypeIcon(life.type)}
+                      </div>
+                      {/* Name tooltip on hover */}
+                      <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                        {life.name}
+                      </div>
+                    </div>
+                  </Button>
+                ))}
+              </div>
             </div>
 
             {/* Zone Transition Effect */}
             {index < oceanZones.length - 1 && (
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent to-black/20" />
+              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent via-black/10 to-black/20" />
             )}
           </div>
         ))}
       </div>
 
-      {/* Marine Life Detail Modal */}
+      {/* Marine Life Detail Modal - enhanced design */}
       <Dialog open={!!selectedLife} onOpenChange={() => setSelectedLife(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           {selectedLife && (
             <>
-              <DialogHeader>
-                <DialogTitle className="flex items-center gap-3">
-                  <span className="text-3xl">{getLifeIcon(selectedLife.type)}</span>
-                  {selectedLife.name}
+              <DialogHeader className="space-y-4">
+                <DialogTitle className="flex items-center gap-4 text-2xl">
+                  <div className="relative">
+                    <img
+                      src={selectedLife.image}
+                      alt={selectedLife.name}
+                      className="w-16 h-16 object-cover rounded-full border-4 border-blue-200"
+                    />
+                    <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1.5 shadow-md">
+                      {getTypeIcon(selectedLife.type)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="font-bold">{selectedLife.name}</div>
+                    <Badge variant="outline" className="mt-1 capitalize">
+                      {selectedLife.type}
+                    </Badge>
+                  </div>
                 </DialogTitle>
-                <DialogDescription>{selectedLife.description}</DialogDescription>
+                <DialogDescription className="text-base leading-relaxed">
+                  {selectedLife.description}
+                </DialogDescription>
               </DialogHeader>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="space-y-3">
-                  <div>
-                    <h4 className="font-semibold flex items-center gap-2">
+              {/* Large image display */}
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg my-6">
+                <img
+                  src={selectedLife.image}
+                  alt={selectedLife.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white">
+                  <div className="text-sm opacity-90">📸 Marine Life Photography</div>
+                </div>
+              </div>
+
+              {/* Detailed information grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <h4 className="font-semibold flex items-center gap-2 text-blue-900 mb-2">
                       <Eye className="h-4 w-4" />
                       Habitat
                     </h4>
-                    <p className="text-sm text-muted-foreground">{selectedLife.habitat}</p>
+                    <p className="text-sm text-blue-800">{selectedLife.habitat}</p>
                   </div>
 
-                  <div>
-                    <h4 className="font-semibold">Diet</h4>
-                    <p className="text-sm text-muted-foreground">{selectedLife.diet}</p>
+                  <div className="p-4 bg-green-50 rounded-lg">
+                    <h4 className="font-semibold text-green-900 mb-2">🍽️ Diet</h4>
+                    <p className="text-sm text-green-800">{selectedLife.diet}</p>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div>
-                    <h4 className="font-semibold">Size</h4>
-                    <p className="text-sm text-muted-foreground">{selectedLife.size}</p>
+                <div className="space-y-4">
+                  <div className="p-4 bg-purple-50 rounded-lg">
+                    <h4 className="font-semibold text-purple-900 mb-2">📏 Size</h4>
+                    <p className="text-sm text-purple-800">{selectedLife.size}</p>
                   </div>
 
-                  <div>
-                    <h4 className="font-semibold flex items-center gap-2">
+                  <div className="p-4 bg-cyan-50 rounded-lg">
+                    <h4 className="font-semibold flex items-center gap-2 text-cyan-900 mb-2">
                       <Droplets className="h-4 w-4" />
                       Depth Range
                     </h4>
-                    <p className="text-sm text-muted-foreground">{selectedLife.depth}</p>
+                    <p className="text-sm text-cyan-800">{selectedLife.depth}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-2">🎯 Fun Fact</h4>
-                <p className="text-sm text-blue-800">{selectedLife.funFact}</p>
+              {/* Fun fact highlight */}
+              <div className="mt-6 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
+                <h4 className="font-bold text-blue-900 mb-3 flex items-center gap-2">
+                  🎯 Amazing Fact
+                </h4>
+                <p className="text-blue-800 leading-relaxed font-medium">{selectedLife.funFact}</p>
               </div>
             </>
           )}
