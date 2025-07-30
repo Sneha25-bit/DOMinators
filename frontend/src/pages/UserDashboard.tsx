@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { User, Trophy, Heart, MessageSquare, Calendar, Fish } from 'lucide-react';
 import { fetchUserDashboard } from '@/api/dashboard';
 import { toast } from 'sonner';
-import ProgressCard from '@/components/progressCard';
+import ProgressCard from '@/components/ProgressCard';
 
 const UserDashboard = () => {
   const { accessToken } = useAuth();
