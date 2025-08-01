@@ -13,6 +13,7 @@ interface MerchandiseCardProps {
   title: string;
   description: string;
   pointsCost: number;
+  onRedeem: () => void; // Triggered when user clicks redeem
 }
 
 export function MerchandiseCard({
@@ -20,10 +21,11 @@ export function MerchandiseCard({
   title,
   description,
   pointsCost,
+  onRedeem,
 }: MerchandiseCardProps) {
   return (
     <Card className="flex flex-col h-full rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-      {/* Image Section */}
+      {/* Image */}
       <div className="w-full h-48 bg-gray-100">
         <img
           src={imageSrc || "/placeholder.svg"}
@@ -32,7 +34,7 @@ export function MerchandiseCard({
         />
       </div>
 
-      {/* Header */}
+      {/* Title & Description */}
       <CardHeader className="px-4 pt-4 pb-2 text-center space-y-1">
         <CardTitle className="text-xl font-semibold">{title}</CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
@@ -40,16 +42,19 @@ export function MerchandiseCard({
         </CardDescription>
       </CardHeader>
 
-      {/* Content */}
+      {/* Points Info */}
       <CardContent className="px-4 pb-2 text-center">
         <div className="text-lg font-bold text-primary">
           {pointsCost} Ocean Points
         </div>
       </CardContent>
 
-      {/* Footer */}
+      {/* Redeem Button */}
       <CardFooter className="px-4 pb-4">
-        <Button className="w-full hover:scale-105 transition-transform duration-200">
+        <Button
+          className="w-full hover:scale-105 transition-transform duration-200"
+          onClick={onRedeem}
+        >
           Redeem with Points
         </Button>
       </CardFooter>

@@ -346,8 +346,9 @@ const GamesPage = () => {
                     onClick={() => handleTicTacToeClick(index)}
                     disabled={!!cell || gameStatus !== 'playing' || !isPlayerTurn}
                   >
-                    {cell === 'X' ? <X className="w-8 h-8 text-blue-400" /> : 
-                     cell === 'O' ? <Circle className="w-8 h-8 text-red-400" /> : ''}
+                    {cell === 'X' ? <span className="text-3xl">🐠</span> : 
+                    cell === 'O' ? <span className="text-3xl">🐡</span> : ''}
+
                   </Button>
                 ))}
               </div>

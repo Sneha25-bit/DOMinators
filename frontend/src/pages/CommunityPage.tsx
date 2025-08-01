@@ -62,7 +62,6 @@ const CommunityPage = () => {
   };
 
   const handleLike = async (id: number) => {
-    
     try {
       const res = await likePost(id);
       const data = await res.data;

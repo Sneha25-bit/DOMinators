@@ -1,6 +1,8 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import { MerchandiseCard } from '@/components/merchandise-card';
+import { useAuth } from '@/contexts/AuthContext'; 
+import { toast } from 'sonner';
 
 const merchandiseItems = [
   {
@@ -90,21 +92,37 @@ const merchandiseItems = [
 ];
 
 const Merchandise = () => {
+  const { user, updateUserPoints } = useAuth(); // Ensure these exist in your context
+
+  const handleRedeem = (item: { title: string; pointsCost: number }) => {
+    if (!user) return toast.error("Please log in to redeem.");
+
+    if (user.points < item.pointsCost) {
+      return toast.error("You don't have enough Ocean Points.");
+    }
+
+    updateUserPoints(-item.pointsCost); // Deduct points
+    toast.success(`You redeemed a ${item.title}!`);
+  };
+
   return (
     <Layout>
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold text-white">Redeem Ocean Points</h1>
-        <p className="mt-2 text-white/80 text-lg">Exchange your points for eco-friendly merchandise</p>
+        <p className="mt-2 text-white/80 text-lg">
+          Exchange your points for eco-friendly merchandise
+        </p>
       </div>
 
       <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        {merchandiseItems.map((item) => (
+        {merchandiseItems.map((item, index) => (
           <MerchandiseCard
-            key={item.id}
+            key={`${item.id}-${index}`} // better key to avoid duplicates
             imageSrc={item.imageSrc}
             title={item.title}
             description={item.description}
             pointsCost={item.pointsCost}
+            onRedeem={() => handleRedeem(item)}
           />
         ))}
       </div>
