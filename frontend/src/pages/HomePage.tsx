@@ -85,10 +85,10 @@ const HomePage = () => {
   ];
 
   const quickActions = [
-    { icon: Camera, label: "Watch Live Cams", path: "/explore-ocean", color: "bg-blue-500" },
+    { icon: Camera, label: "Marine Mammals", path: "/marine-mammals", color: "bg-blue-500" },
     { icon: Gamepad2, label: "Play Games", path: "/games", color: "bg-green-500" },
-    { icon: Users, label: "Join Community", path: "/community", color: "bg-purple-500" },
-    { icon: Heart, label: "Make Donation", path: "/my-donations", color: "bg-red-500" }
+    { icon: Heart, label: "Make Donation", path: "/my-donations", color: "bg-red-500" },
+    { icon: Heart, label: "Friends", path: "/my-friends", color: "bg-purple-500" },
   ];
 
   useEffect(() => {
