@@ -331,7 +331,7 @@ const GamesPage = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => setActiveGame('none')}
-                  className="text-white border-white/30 hover:bg-white/20"
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white"
                 >
                   Back to Games
                 </Button>
@@ -379,7 +379,7 @@ const GamesPage = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => setActiveGame('none')}
-                  className="text-white border-white/30 hover:bg-white/20"
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white"
                 >
                   Back to Games
                 </Button>
