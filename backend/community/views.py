@@ -2,9 +2,8 @@ from rest_framework import generics, permissions,status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.decorators import action
-from .models import Discussion, DiscussionLike
-from .serializers import DiscussionSerializer
+from .models import Discussion, DiscussionLike, Comment
+from .serializers import DiscussionSerializer, CommentSerializer
 
 class DiscussionListCreateView(generics.ListCreateAPIView):
     queryset = Discussion.objects.all().order_by('-timestamp')
@@ -45,3 +44,16 @@ class LikeDiscussionView(APIView):
         discussion.save()
         return Response({'liked': True, 'likes': discussion.likes}, status=200)
     
+class CommentListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        discussion_id = self.kwargs['discussion_id']
+        return Comment.objects.filter(discussion_id=discussion_id).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        serializer.save(
+            user=self.request.user,
+            discussion_id=self.kwargs['discussion_id']
+        )
