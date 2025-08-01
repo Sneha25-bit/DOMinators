@@ -21,6 +21,8 @@ import MarineCategories from "./pages/MarineCategories";
 import SendFriendRequest from "./pages/SendFriendRequest";
 import FriendRequests from "./pages/FriendRequests";
 import MarineEcosystemPage from "./pages/MarineEcosystem";
+import { MerchandiseCard } from "./components/merchandise-card";
+import Merchandise from "./pages/Merchandise";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,7 @@ const App = () => (
             <Route path="/send-request" element={<SendFriendRequest/>}></Route>
             <Route path="/friend-requests" element={<FriendRequests/>}></Route>
             <Route path="/marine-ecosystem" element={<MarineEcosystemPage />} />
+            <Route path="/merchandise" element={<Merchandise/>} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
