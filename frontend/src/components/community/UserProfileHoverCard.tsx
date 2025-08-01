@@ -8,8 +8,8 @@ import { Fish, UserPlus } from 'lucide-react';
 interface UserProfileHoverCardProps {
   author: {
     username: string;
-    fullName: string;
-    marineCharacter: string;
+    full_name: string;
+    marine_character: string;
     points: number;
     status: 'online' | 'recently' | 'offline';
   };
@@ -44,7 +44,7 @@ const UserProfileHoverCard: React.FC<UserProfileHoverCardProps> = ({ author, onA
         <div className="relative cursor-pointer">
           <Avatar className="h-12 w-12">
             <AvatarFallback className="bg-cyan-600 text-white text-lg">
-              {getCharacterEmoji(author.marineCharacter)}
+              {getCharacterEmoji(author.marine_character)}
             </AvatarFallback>
           </Avatar>
           <div className={`absolute -bottom-1 -right-1 w-4 h-4 ${getStatusColor(author.status)} rounded-full border-2 border-white`}></div>
@@ -53,7 +53,7 @@ const UserProfileHoverCard: React.FC<UserProfileHoverCardProps> = ({ author, onA
       <HoverCardContent className="w-80 bg-white/90 backdrop-blur-md">
         <div className="flex justify-between space-x-4">
           <div className="space-y-1">
-            <h4 className="text-sm font-semibold">{author.fullName}</h4>
+            <h4 className="text-sm font-semibold">{author.full_name}</h4>
             <p className="text-sm text-muted-foreground">@{author.username}</p>
             <div className="flex items-center pt-2">
               <Fish className="w-4 h-4 mr-2 text-cyan-600" />
@@ -70,7 +70,7 @@ const UserProfileHoverCard: React.FC<UserProfileHoverCardProps> = ({ author, onA
           </div>
           <Avatar className="h-12 w-12">
             <AvatarFallback className="bg-cyan-600 text-white text-lg">
-              {getCharacterEmoji(author.marineCharacter)}
+              {getCharacterEmoji(author.marine_character)}
             </AvatarFallback>
           </Avatar>
         </div>

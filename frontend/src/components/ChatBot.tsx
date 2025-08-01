@@ -18,7 +18,10 @@ const ChatBot = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const timeout = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+    return () => clearTimeout(timeout);
   }, [messages]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -44,9 +47,7 @@ const ChatBot = () => {
         const predicted = res.data.sea_level_mm;
         const botResponse = {
           id: messages.length + 2,
-          text: `📈 Sea level in ${year} is expected to rise to ${predicted.toFixed(
-            2
-          )} mm above year 2000.`,
+          text: `📈 Sea level in ${year} is expected to rise to ${predicted.toFixed(2)} mm above year 2000.`,
           sender: 'bot' as const,
         };
         setMessages((prev) => [...prev, botResponse]);
@@ -71,16 +72,15 @@ const ChatBot = () => {
   };
 
   const getBotResponse = (message: string): string => {
-  const lowerMessage = message.toLowerCase();
-  const match = lowerMessage.match(/predict sea level in (\d{4})/);
+    const lowerMessage = message.toLowerCase();
+    const match = lowerMessage.match(/predict sea level in (\d{4})/);
 
-  if (match) {
-    return "Predicting sea level..."; 
-  } else {
-    return "🌊 Sorry, I can only help you predict sea levels. Try asking me: 'predict sea level in 2050'.";
-  }
-};
-
+    if (match) {
+      return "Predicting sea level..."; 
+    } else {
+      return "🌊 Sorry, I can only help you predict sea levels. Try asking me: 'predict sea level in 2050'.";
+    }
+  };
 
   return (
     <>
@@ -96,60 +96,59 @@ const ChatBot = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-80 h-[28rem] max-h-[90vh] bg-white/95 backdrop-blur-md border-white/30 shadow-xl z-50 flex flex-col overflow-hidden">
-          <CardHeader className="bg-cyan-600 text-white rounded-t-lg flex flex-row items-center justify-between p-4">
-            <div className="flex items-center space-x-2">
-              <Fish className="w-5 h-5" />
-              <CardTitle className="text-sm">Nemo - Ocean Guide</CardTitle>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-white/20 p-1 h-auto"
-            >
-              <X className="w-4 h-4" />
-            </Button>
+        <Card className="fixed bottom-6 right-6 w-80 h-[32rem] max-h-[90vh] bg-white/95 backdrop-blur-md border-white/30 shadow-xl z-50 flex flex-col overflow-hidden">
+          {/* Close Button */}
+          <Button
+            onClick={() => setIsOpen(false)}
+            className="absolute top-2 right-2 z-50 text-white bg-cyan-600 hover:bg-cyan-700 rounded-full p-1"
+          >
+            <X className="w-5 h-5" />
+          </Button>
+
+          <CardHeader className="bg-cyan-600 text-white rounded-t-lg flex items-center space-x-2 p-4">
+            <Fish className="w-5 h-5" />
+            <CardTitle className="text-sm">Nemo - Ocean Guide</CardTitle>
           </CardHeader>
 
           <CardContent className="flex flex-col flex-1 p-0">
-            {/* Message Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
+              {/* Scrollable Message Area */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ maxHeight: '22rem' }}>
+                {messages.map((message) => (
                   <div
-                    className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
-                      message.sender === 'user'
-                        ? 'bg-cyan-600 text-white'
-                        : 'bg-gray-200 text-gray-800'
-                    }`}
+                    key={message.id}
+                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    {message.text}
+                    <div
+                      className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
+                        message.sender === 'user'
+                          ? 'bg-cyan-600 text-white'
+                          : 'bg-gray-200 text-gray-800'
+                      }`}
+                    >
+                      {message.text}
+                    </div>
                   </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Field */}
-            <form onSubmit={handleSendMessage} className="p-4 border-t bg-white">
-              <div className="flex space-x-2">
-                <Input
-                  type="text"
-                  placeholder="Ask about sea level"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  className="flex-1"
-                />
-                <Button type="submit" size="sm" className="bg-cyan-600 hover:bg-cyan-700">
-                  <Send className="w-4 h-4" />
-                </Button>
+                ))}
+                <div ref={messagesEndRef} />
               </div>
-            </form>
-          </CardContent>
+
+              {/* Input Field */}
+              <form onSubmit={handleSendMessage} className="p-4 border-t bg-white">
+                <div className="flex space-x-2">
+                  <Input
+                    type="text"
+                    placeholder="Ask about sea level"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button type="submit" size="sm" className="bg-cyan-600 hover:bg-cyan-700">
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+
         </Card>
       )}
     </>

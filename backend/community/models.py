@@ -34,3 +34,10 @@ class DiscussionLike(models.Model):
 
     def __str__(self):
         return f"{self.user.username} liked '{self.discussion.title}'"
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    

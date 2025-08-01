@@ -7,6 +7,7 @@ import CreatePostForm from '@/components/community/CreatePostForm';
 import DiscussionCard from '@/components/community/DiscussionCard';
 import { getDiscussions, createPost, likePost } from '@/api/community';
 import { logUserActivity } from '@/api/dashboard';
+import axiosInstance from '@/api/friends';
 
 const logActivity = async (type: 'community', description: string, points: number) => {
   try {
@@ -82,9 +83,20 @@ const CommunityPage = () => {
     }
   };
 
-  const handleAddFriend = (username: string) => {
-    toast.success(`Friend request sent to ${username}!`);
-  };
+  const handleAddFriend = async (username: string) => {
+  if (!username.trim()) {
+    toast.error('Invalid username');
+    return;
+  }
+
+  try {
+    await axiosInstance.post('/api/friend-requests/', { to_username: username });
+    toast.success(`Friend request sent to ${username}`);
+  } catch (error: any) {
+    toast.error(error.response?.data?.detail || 'Failed to send friend request');
+  }
+};
+
 
   return (
     <Layout>

@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import {jwtDecode} from 'jwt-decode';
+import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from 'react-router-dom';
+
+
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui/card';
+import { jwtDecode } from 'jwt-decode';
 import { createDonation } from '@/api/donation';
 import { addUserPoints } from '@/api/points';
 import { logUserActivity } from '@/api/dashboard';
+import { motion } from 'framer-motion';
+import { HeartHandshake, Loader2, CheckCircle2 } from 'lucide-react';
 
-const logActivity = async (type: 'donation', description: string, points: number) => {
-  try {
-    await logUserActivity({ type, description, points });
-  } catch (err) {
-    console.error('Failed to log activity:', err);
-  }
-};
+
+
 
 const donationSchemes = [
   {
@@ -43,18 +55,30 @@ const donationSchemes = [
   },
 ];
 
+const logActivity = async (
+  type: 'donation',
+  description: string,
+  points: number
+) => {
+  try {
+    await logUserActivity({ type, description, points });
+  } catch (err) {
+    console.error('Failed to log activity:', err);
+  }
+};
+
 const PaymentPage: React.FC = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   const [selectedSchemeId, setSelectedSchemeId] = useState('');
   const [amount, setAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const token = localStorage.getItem('access_token');
-  const refresh = localStorage.getItem('refresh_token');
-
-  const selectedSchemeData = donationSchemes.find(s => s.id === selectedSchemeId);
-
   let userId = 0;
   if (token) {
     try {
@@ -65,8 +89,12 @@ const PaymentPage: React.FC = () => {
     }
   }
 
+  const selectedScheme = donationSchemes.find(
+    (s) => s.id === selectedSchemeId
+  );
+
   const handleDonate = async () => {
-    if (!selectedSchemeId || !amount || !userId || !selectedSchemeData) {
+    if (!selectedSchemeId || !amount || !userId || !selectedScheme) {
       setMessage('All fields are required.');
       return;
     }
@@ -78,84 +106,170 @@ const PaymentPage: React.FC = () => {
     }
 
     const points = Math.floor(donationAmount);
-
     setLoading(true);
     setMessage('');
+    setSuccess(false);
 
     try {
-      await createDonation({
-        scheme: selectedSchemeId, 
-        amount: parseFloat(amount),
-        payment_method: paymentMethod,
-        user: userId,
-        description: selectedSchemeData.description,
-        impact: selectedSchemeData.impact,
-      }, token || '');
+  await createDonation(
+    {
+      scheme: selectedSchemeId,
+      amount: donationAmount,
+      payment_method: paymentMethod,
+      user: userId,
+      description: selectedScheme.description,
+      impact: selectedScheme.impact,
+    },
+    token || ''
+  );
 
-      await addUserPoints(points);
+  await addUserPoints(points);
+  await logActivity(
+    'donation',
+    `Donated $${donationAmount} to ${selectedScheme.name}`,
+    points
+  );
 
-      await logActivity(
-      'donation',
-      `Donated $${donationAmount} to ${selectedSchemeData.name}`,
-      points
-    );
+  setSuccess(true);
+  setMessage('Donation successful! Thank you 💙');
+  setAmount('');
+  setSelectedSchemeId('');
 
-      setMessage('Donation successful! Thank you 💙');
-      setAmount('');
-      setSelectedSchemeId('');
-    } catch (error: any) {
-      console.error('Donation error:', error.response?.data || error.message);
-      setMessage('Donation failed: ' + (error.response?.data?.detail || 'Unknown error'));
-    } finally {
-      setLoading(false);
-    }
+ 
+  toast({
+    title: "Points will update after login",
+    description: "You’ll see updated points after your next login.",
+    duration: 5000,
+  });
+
+ 
+  setTimeout(() => {
+    navigate('/my-donations');
+  }, 2000);
+} catch (error: any) {
+  console.error('Donation error:', error.response?.data || error.message);
+  setMessage(
+    'Donation failed: ' +
+      (error.response?.data?.detail || 'Unknown error')
+  );
+} finally {
+  setLoading(false);
+}
+
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10">
-      <Card>
-        <CardHeader>
-          <CardTitle>Make a Donation</CardTitle>
+    <motion.div
+      className="max-w-xl mx-auto mt-12 p-4"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <Card className="shadow-xl border border-sky-200">
+        <CardHeader className="flex items-center gap-2">
+          <HeartHandshake className="text-blue-500" />
+          <CardTitle className="text-2xl font-bold">
+            Make a Donation
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Select onValueChange={setSelectedSchemeId} value={selectedSchemeId}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a scheme" />
-            </SelectTrigger>
-            <SelectContent>
-              {donationSchemes.map((scheme) => (
-                <SelectItem key={scheme.id} value={scheme.id}>
-                  {scheme.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
 
-          <Input
-            type="number"
-            placeholder="Enter amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
+        <CardContent className="space-y-6 py-4">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="space-y-3"
+          >
+            <label className="text-sm font-medium">Select Scheme</label>
+            <Select onValueChange={setSelectedSchemeId} value={selectedSchemeId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose a scheme" />
+              </SelectTrigger>
+              <SelectContent>
+                {donationSchemes.map((scheme) => (
+                  <SelectItem key={scheme.id} value={scheme.id}>
+                    {scheme.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </motion.div>
 
-          <Select onValueChange={setPaymentMethod} value={paymentMethod}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select payment method" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="card">Card</SelectItem>
-              <SelectItem value="paypal">PayPal</SelectItem>
-            </SelectContent>
-          </Select>
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="space-y-3"
+          >
+            <label className="text-sm font-medium">Amount</label>
+            <Input
+              type="number"
+              placeholder="Enter donation amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </motion.div>
 
-          <Button onClick={handleDonate} disabled={loading}>
-            {loading ? 'Processing...' : 'Donate Now'}
-          </Button>
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="space-y-3"
+          >
+            <label className="text-sm font-medium">Payment Method</label>
+            <Select onValueChange={setPaymentMethod} value={paymentMethod}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose payment method" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="card">Card</SelectItem>
+                <SelectItem value="paypal">PayPal</SelectItem>
+                <SelectItem value="google">Google Pay</SelectItem>
+                <SelectItem value="apple">Apple Pay</SelectItem>
+              </SelectContent>
+            </Select>
+          </motion.div>
 
-          {message && <p className="text-center text-sm text-red-500">{message}</p>}
+          <motion.div
+            className="pt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Button
+              onClick={handleDonate}
+              disabled={loading}
+              className="w-full"
+            >
+              {loading ? (
+                <Loader2 className="animate-spin h-4 w-4 mr-2" />
+              ) : (
+                'Donate Now'
+              )}
+            </Button>
+          </motion.div>
+
+          {message && (
+            <motion.p
+              className={`text-sm text-center ${
+                success ? 'text-green-600' : 'text-red-500'
+              }`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {success ? (
+                <span className="flex items-center justify-center gap-2">
+                  <CheckCircle2 className="text-green-600 w-4 h-4" />
+                  {message}
+                </span>
+              ) : (
+                message
+              )}
+            </motion.p>
+          )}
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 
