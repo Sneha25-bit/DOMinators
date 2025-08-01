@@ -25,8 +25,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navItems = [
     { path: '/home', icon: Home, label: 'Home' },
     { path: '/community', icon: Users, label: 'Community' },
-    { path: '/games', icon: Gamepad2, label: 'Games' },
     { path: '/explore-ocean', icon: Camera, label: 'Explore Ocean' },
+    {path: '/marine-ecosystem', icon: Camera, label: 'Marine Ecosystem'}
   ];
 
   const getCharacterEmoji = (character: string) => {
@@ -138,16 +138,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <h4 className="text-white font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-sm text-white/80">
                 <li><Link to="/my-donations" className="hover:text-white">Donate</Link></li>
-                <li><a href="#" className="hover:text-white">Conservation</a></li>
-                <li><a href="#" className="hover:text-white">Research</a></li>
+                <li><a href="/my-friends" className="hover:text-white">Conservation</a></li>
+                <li><a href="/marine-mammals" className="hover:text-white">Research</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Connect</h4>
               <ul className="space-y-2 text-sm text-white/80">
                 <li><Link to="/my-friends" className="hover:text-white">Friends</Link></li>
-                <li><a href="#" className="hover:text-white">News</a></li>
-                <li><a href="#" className="hover:text-white">Events</a></li>
+                <li><a href="/home" className="hover:text-white">News</a></li>
+                <li><a href="/marine-ecosystem" className="hover:text-white">Ocean</a></li>
               </ul>
             </div>
           </div>

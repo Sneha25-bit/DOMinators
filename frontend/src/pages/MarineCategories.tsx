@@ -1,3 +1,5 @@
+import Layout from '@/components/Layout';
+
 const categories = [
   {
     name: 'Cephalopods & Shellfish',
@@ -43,6 +45,7 @@ const categories = [
 
 export default function MarineCategories() {
   return (
+    <Layout>
     <div className="min-h-screen p-6 bg-gradient-to-br from-cyan-50 to-blue-100">
       <h2 className="text-3xl font-bold text-center mb-10 text-cyan-800">
         🌊 Discover Marine Life
@@ -70,5 +73,6 @@ export default function MarineCategories() {
         ))}
       </div>
     </div>
+    </Layout>
   );
 }
