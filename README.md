@@ -1,6 +1,10 @@
 # 🌐 DOMinators
 
-**DOMinators** is a full-stack web application built with **Django** for the backend and **Next.js** for the frontend. It’s designed with modularity, scalability, and team collaboration in mind.
+**Aqua-Verse Explorer** is an interactive, ocean-themed platform designed to educate, engage, and empower users to explore marine ecosystems while having fun. Whether you're diving into coral reefs, learning about marine mammals, or joining a like-minded community, Aqua-Verse offers a gamified experience where every interaction earns you **Ocean Points**.
+
+These Ocean Points can be redeemed for exclusive merchandise, used to unlock in-game rewards, or contributed to real-world ocean conservation efforts.
+
+This project blends education, entertainment, and environmental impact, making it a unique tool for raising awareness about marine life in a way that's fun, social, and rewarding — both digitally and in the real world.
 
 ---
 
@@ -8,22 +12,46 @@
 
 ```
 DOMinators/
-├── backend/          # Django backend project
+├── backend/           # Django backend project
 │   ├── manage.py
-│   ├── config/       # Django settings, urls, wsgi/asgi
-│   ├── ocean/        # Example Django app
-│   └── db.sqlite3    # Local development DB (ignored in Git)
+│   ├── config/           # Django settings, urls, wsgi/asgi
+│   ├── ocean/            # Example Django app
+│   ├── community/        # Community posts,like/dislike  
+│   ├── donation-stats/   # Donation_history
+│   ├── donations/        # Donation
+│   ├── friends/          # friend requests
+│   ├── message/          # for message
+│   ├── ocean_ai/         # Chatbot        
+│   └── db.sqlite3        # Local development DB (ignored in Git)
 │
-├── frontend/         # Next.js frontend (Bootstrap)
-│   ├── src/
-│   ├── public/
-│   └── ...
-│
-├── env/              # Python virtual environment (ignored in Git)
-├── requirements.txt  # Python dependencies
-├── .gitignore
+├── frontend/           # Next.js frontend (Tailwind)
+│   ├── src/               # Main source folder
+│   │      ├── api/         # Axios instances and API utility functions      
+│   │      ├── assets/      # Info page images
+│   │      ├── components/  # Reusable UI components
+│   │      ├── contexts/    # React context providers
+│   │      ├── hooks/       # Custom React hooks for reusable logic
+│   │      ├── lib/         # Utility functions and helpers
+│   │      └── pages/       # All routes/pages (Next.js routing)
+│   │
+│   └── public/           # Publicly accessible images and static files
+│          ├── images/            # Marine animals
+│          ├── info-background/   #Background
+│          └── merchandise_img/   #Merchandise pictures
+│          
+│           
+│   
+│── package.json         # Project metadata and dependencies
+│── tailwind.config.ts   # TailwindCSS config
+│── tsconfig.json        # TypeScript config
+│── vite.config.ts       # Vite config
+│── postcss.config.ts    # PostCSS config
+│── .eslint.config.js    # Linting rules
+├── env/                 # Python virtual environment (ignored in Git)
+├── requirements.txt     # Python dependencies
+├── .gitignore           # Ignored files for Git 
 ├── .gitattributes
-└── README.md
+└── README.md            # Project documentation
 ```
 
 ---
@@ -70,7 +98,7 @@ npm install
 npm run dev
 ```
 
-> Frontend runs at: [http://localhost:3000](http://localhost:3000)
+> Frontend runs at: [http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -107,7 +135,7 @@ npm run dev
 
 | Layer    | Technology                    |
 | -------- | ----------------------------- |
-| Frontend | Next.js, React, Bootstrap     |
+| Frontend | Next.js, Tailwind     |
 | Backend  | Django, Django REST Framework |
 | Database | SQLite (dev only)             |
 | Tools    | Git, GitHub, VS Code          |
