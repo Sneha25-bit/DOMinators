@@ -48,7 +48,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen ocean-gradient">
+    <div className="relative min-h-screen">
+  {/* Background Video */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+  >
+    <source src="/marine.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+
       {/* Navigation Bar */}
       <nav className="bg-white/20 backdrop-blur-md border-b border-white/30 sticky top-0 z-50">
         <div className="container mx-auto px-4">
