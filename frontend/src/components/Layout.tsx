@@ -7,6 +7,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Home, Users, Gamepad2, Camera, User, LogOut, Heart, UserPlus } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import ChatBot from './ChatBot';
+import { FaHome } from "react-icons/fa";
+import { RiUserCommunityFill } from "react-icons/ri";
+import { FaCamera } from "react-icons/fa";
+import { GiCirclingFish } from "react-icons/gi";
+import { PiFishFill } from "react-icons/pi";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,10 +28,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const navItems = [
-    { path: '/home', icon: Home, label: 'Home' },
-    { path: '/community', icon: Users, label: 'Community' },
-    { path: '/explore-ocean', icon: Camera, label: 'Explore Ocean' },
-    {path: '/marine-ecosystem', icon: Camera, label: 'Marine Ecosystem'}
+    { path: '/home', icon: FaHome, label: 'Home' },
+    { path: '/community', icon: RiUserCommunityFill, label: 'Community' },
+    { path: '/explore-ocean', icon: FaCamera, label: 'Explore Ocean' },
+    {path: '/marine-ecosystem', icon:PiFishFill, label: 'Marine Ecosystem'},
+    { path: '/marine-mammals', icon: GiCirclingFish, label: 'Marine Mammals' }
   ];
 
   const getCharacterEmoji = (character: string) => {
