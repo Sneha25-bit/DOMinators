@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { MerchandiseCard } from '@/components/merchandise-card';
 import { useAuth } from '@/contexts/AuthContext'; 
 import { toast } from 'sonner';
+import { recordMerchAchievement } from '@/api/merchandise'; 
 
 const merchandiseItems = [
   {
@@ -94,16 +95,22 @@ const merchandiseItems = [
 const Merchandise = () => {
   const { user, updateUserPoints } = useAuth(); // Ensure these exist in your context
 
-  const handleRedeem = (item: { title: string; pointsCost: number }) => {
-    if (!user) return toast.error("Please log in to redeem.");
+  const handleRedeem = async (item: { title: string; pointsCost: number }) => {
+  if (!user) return toast.error("Please log in to redeem.");
 
-    if (user.points < item.pointsCost) {
-      return toast.error("You don't have enough Ocean Points.");
-    }
+  if (user.points < item.pointsCost) {
+    return toast.error("You don't have enough Ocean Points.");
+  }
 
-    updateUserPoints(-item.pointsCost); // Deduct points
+  try {
+    await recordMerchAchievement(item.title); // ⬅️ Backend call to record achievement
+    updateUserPoints(-item.pointsCost);  // ⬅️ Local state update
     toast.success(`You redeemed a ${item.title}!`);
-  };
+  } catch (error) {
+    toast.error("Redemption failed. Please try again.");
+    console.error(error);
+  }
+};
 
   return (
     <Layout>
