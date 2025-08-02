@@ -102,7 +102,7 @@ const HomePage = () => {
     }, 10000); // Change fact every 10 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [funFacts.length]);
 
   const handleFactClick = (source: string) => {
     window.open(source, '_blank');
@@ -121,7 +121,7 @@ const HomePage = () => {
             Welcome back, {user?.fullName || user?.username || "Explorer"}! 🌊
           </h1>
           <p className="text-white/80 text-lg mb-6">
-            Ready to dive into today's ocean discoveries?
+            𝑹𝒆𝒂𝒅𝒚 𝒕𝒐 𝒅𝒊𝒗𝒆 𝒊𝒏𝒕𝒐 𝒕𝒐𝒅𝒂𝒚'𝒔 𝒐𝒄𝒆𝒂𝒏 𝒅𝒊𝒔𝒄𝒐𝒗𝒆𝒓𝒊𝒆𝒔?
           </p>
           <Badge className="bg-cyan-600 text-white px-4 py-2 text-lg">
             {user?.points} Ocean Points Earned

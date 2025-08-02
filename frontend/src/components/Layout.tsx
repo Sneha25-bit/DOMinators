@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/community', icon: RiUserCommunityFill, label: 'Community' },
     { path: '/explore-ocean', icon: FaCamera, label: 'Explore Ocean' },
     {path: '/marine-ecosystem', icon:PiFishFill, label: 'Marine Ecosystem'},
-    { path: '/marine-mammals', icon: GiCirclingFish, label: 'Marine Mammals' }
+    { path: '/marine-mammals', icon: GiCirclingFish, label: 'Marine Species' }
   ];
 
   const getCharacterEmoji = (character: string) => {
