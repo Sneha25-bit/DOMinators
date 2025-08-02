@@ -63,8 +63,7 @@ const Products = () => {
             Rewards
           </h1>
           <p data-aos="fade-up" className="text-xs text-gray-400">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit
-            asperiores modi Sit asperiores modi
+            From exclusive badges to ocean-themed goodies, get rewarded for exploring, engaging, and protecting the blue. Because doing good should feel great!
           </p>
         </div>
         {/* Body section */}
