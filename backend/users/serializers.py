@@ -75,8 +75,16 @@ class UserDashboardSerializer(serializers.ModelSerializer):
         return ActivitySerializer(activities, many=True).data
 
     def get_achievements(self, obj):
-        achievements = Achievement.objects.all()
-        return AchievementSerializer(achievements, many=True, context={'user': obj}).data
+        user_achievements = UserAchievement.objects.filter(user=obj, earned=True).select_related('achievement')
+        return [
+            {
+                "name": ua.achievement.name,
+                "description": ua.achievement.description,
+                "earned": True
+            }
+            for ua in user_achievements
+        ]
+
 
     def get_games_won(self, obj):
         return obj.activities.filter(type='game').count()
