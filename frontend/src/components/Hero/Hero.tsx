@@ -11,23 +11,24 @@ const ImageList = [
     img: Image1,
     title: "Explore the ocean with just a scroll",
     description:
-      "lorem His Life will forever be Changed dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Dive into the mysteries of the deep blue sea—discover marine life, ecosystems, and stories from the heart of the ocean, all from your screen.",
   },
   {
     id: 2,
     img: Image2,
     title: "Fun Ocean Games and Activities",
     description:
-      "Who's there lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Learn while you play! Challenge yourself with fun, interactive games that raise awareness about marine conservation and the wonders of the ocean.",
   },
   {
     id: 3,
     img: Image3,
-    title: "Live Ocean cams",
+    title: "Live Ocean Cams",
     description:
-      "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Watch real-time footage from oceanic hotspots around the world—observe dolphins, coral reefs, and the daily rhythm of marine life from anywhere.",
   },
 ];
+
 
 const Hero = () => {
   const settings = {

@@ -4,29 +4,31 @@ import Slider from "react-slick";
 const TestimonialData = [
   {
     id: 1,
-    name: "Victor",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    name: "Aanya Mehra",
+    text: "This platform opened my eyes to the beauty and fragility of ocean life. I now understand how even small actions can make a big impact.",
     img: "https://picsum.photos/101/101",
   },
   {
     id: 2,
-    name: "Satya Nadella",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    name: "Kiran D'Souza",
+    text: "A truly immersive experience. It's not just informative but inspiring. The interactive content keeps you coming back to learn more.",
     img: "https://picsum.photos/102/102",
   },
   {
     id: 3,
-    name: "Virat Kohli",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    name: "Ravi Kulkarni",
+    text: "I love how the site blends education with fun. From live cams to games, it’s an amazing way to connect with ocean conservation.",
     img: "https://picsum.photos/104/104",
   },
   {
-    id: 5,
-    name: "Sachin Tendulkar",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque reiciendis inventore iste ratione ex alias quis magni at optio",
+    id: 4,
+    name: "Sneha Nambiar",
+    text: "This initiative is brilliant! It made me more aware of marine issues, and I’ve even shared it with my kids to help them learn early.",
     img: "https://picsum.photos/103/103",
   },
 ];
+
+
 
 const Testimonials = () => {
   const settings = {

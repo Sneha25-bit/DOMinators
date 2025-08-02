@@ -47,8 +47,8 @@ const Footer = () => {
               Ocean Exploration!
             </h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum in
-              beatae ea recusandae blanditiis veritatis.
+              Dive into the deep blue with us! We’re on a mission to explore the wonders of our oceans,
+  promote marine conservation, and connect like-minded sea enthusiasts from all over the world.
             </p>
           </div>
 

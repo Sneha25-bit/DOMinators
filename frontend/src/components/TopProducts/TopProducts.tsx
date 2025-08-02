@@ -41,8 +41,7 @@ const TopProducts = () => {
             Best Products
           </h1>
           <p data-aos="fade-up" className="text-xs text-gray-400">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit
-            asperiores modi Sit asperiores modi
+            Discover the best of our ocean-focused platform — from exciting exploration tools to community connections and meaningful impact. Dive into the features making waves!
           </p>
         </div>
         {/* Body section */}
