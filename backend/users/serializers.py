@@ -96,15 +96,7 @@ class CreateActivitySerializer(serializers.ModelSerializer):
         fields = ['type', 'description', 'points']
 
     def create(self, validated_data):
-        user = self.context['request'].user
-        activity = Activity.objects.create(user=user, **validated_data)
-
-        # Update user's points and status
-        user.points += validated_data['points']
-        user.status = CustomUser.RECENTLY
-        user.save()
-
-        return activity
+        return Activity.objects.create(user=self.context['request'].user, **validated_data)
     
 
 class LeaderboardUserSerializer(serializers.ModelSerializer):
