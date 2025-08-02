@@ -10,7 +10,7 @@ const Navbar = () => {
         <div className="container flex justify-between items-center">
           <div>
             <a href="/login" className="font-bold text-2xl sm:text-3xl flex gap-2">
-              Ocean Exploration
+              𝓞𝓬𝓮𝓪𝓷 𝓔𝔁𝓹𝓵𝓸𝓻𝓪𝓽𝓲𝓸𝓷
             </a>
           </div>
 
