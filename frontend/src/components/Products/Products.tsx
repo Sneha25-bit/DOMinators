@@ -5,6 +5,7 @@ import Img3 from "../../assets/women/women3.jpg";
 import Img4 from "../../assets/women/women4.jpg";
 import Img5 from "../../assets/women/women5.jpg";
 import { FaStar } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 
 const ProductsData = [
   {
@@ -62,8 +63,7 @@ const Products = () => {
             Rewards
           </h1>
           <p data-aos="fade-up" className="text-xs text-gray-400">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit
-            asperiores modi Sit asperiores modi
+            From exclusive badges to ocean-themed goodies, get rewarded for exploring, engaging, and protecting the blue. Because doing good should feel great!
           </p>
         </div>
         {/* Body section */}
@@ -95,9 +95,11 @@ const Products = () => {
           </div>
           {/* view all button */}
           <div className="flex justify-center">
+            <Link to='/login'>
             <button className="text-center mt-10 cursor-pointer bg-primary text-white py-1 px-5 rounded-md">
               View All Button
             </button>
+            </Link>
           </div>
         </div>
       </div>

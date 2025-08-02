@@ -1,7 +1,7 @@
 from rest_framework import generics, views, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import CustomUser
+from .models import CustomUser,Achievement,UserAchievement
 from .serializers import RegisterSerializer, CustomUserSerializer, UserDashboardSerializer, CreateActivitySerializer,LeaderboardUserSerializer
 from rest_framework.views import APIView
 
@@ -55,3 +55,29 @@ class LeaderboardView(APIView):
         users = CustomUser.objects.order_by('-points')[:10]
         serializer = LeaderboardUserSerializer(users, many=True)
         return Response(serializer.data)     
+    
+
+class RedeemMerchandiseView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        merch_name = request.data.get('title')
+        if not merch_name:
+            return Response({"error": "Merchandise title is required."}, status=400)
+
+        achievement, _ = Achievement.objects.get_or_create(
+            name=merch_name,
+            defaults={"description": "Redeemed merchandise"}
+        )
+
+        user_achievement, created = UserAchievement.objects.get_or_create(
+            user=request.user,
+            achievement=achievement,
+            defaults={"earned": True}
+        )
+
+        if not created and not user_achievement.earned:
+            user_achievement.earned = True
+            user_achievement.save()
+
+        return Response({"message": f"{merch_name} redeemed and recorded as achievement."}, status=200)    

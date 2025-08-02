@@ -4,8 +4,13 @@ import Layout from '@/components/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Fish, Waves, Heart, Users, Camera, Gamepad2 } from 'lucide-react';
+import { ExternalLink, Fish, Waves } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { TfiCup } from "react-icons/tfi";
+import { BiSolidJoystick } from "react-icons/bi";
+import { FaHandHoldingHeart } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
+
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -85,10 +90,10 @@ const HomePage = () => {
   ];
 
   const quickActions = [
-    { icon: Camera, label: "Marine Mammals", path: "/marine-mammals", color: "bg-blue-500" },
-    { icon: Gamepad2, label: "Play Games", path: "/games", color: "bg-green-500" },
-    { icon: Heart, label: "Make Donation", path: "/my-donations", color: "bg-red-500" },
-    { icon: Heart, label: "Friends", path: "/my-friends", color: "bg-purple-500" },
+    { icon: TfiCup, label: "Rewards", path: "/merchandise", color: "bg-blue-500" },
+    { icon:BiSolidJoystick, label: "Play Games", path: "/games", color: "bg-green-500" },
+    { icon: FaHandHoldingHeart, label: "Make Donation", path: "/my-donations", color: "bg-red-500" },
+    { icon: FaUserFriends, label: "Friends", path: "/my-friends", color: "bg-purple-500" },
   ];
 
   useEffect(() => {
@@ -143,37 +148,39 @@ const HomePage = () => {
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Featured Fun Fact */}
-          <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/80 backdrop-blur-md border-white/30">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-white flex items-center">
-                  <Fish className="w-5 h-5 mr-2" />
-                  Ocean Fun Fact
-                </CardTitle>
-                <span className="text-3xl">{funFacts[currentFactIndex].emoji}</span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Badge className="mb-3 bg-white/20 text-white">
-                {funFacts[currentFactIndex].category}
-              </Badge>
-              <h3 className="text-xl font-bold text-white mb-3">
-                {funFacts[currentFactIndex].title}
-              </h3>
-              <p className="text-white/90 mb-4 leading-relaxed">
-                {funFacts[currentFactIndex].fact}
-              </p>
-              <Button 
-                onClick={() => handleFactClick(funFacts[currentFactIndex].source)}
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
-              >
-                Learn More <ExternalLink className="w-4 h-4 ml-2" />
-              </Button>
-            </CardContent>
-          </Card>
+          <Card className="bg-gradient-to-br from-cyan-700/40 to-blue-900/70 backdrop-blur-md border-white/30">
+  <CardHeader>
+    <div className="flex items-center justify-between">
+      <CardTitle className="text-white flex items-center">
+        <Fish className="w-5 h-5 mr-2" />
+        Ocean Fun Fact
+      </CardTitle>
+      <span className="text-3xl">{funFacts[currentFactIndex].emoji}</span>
+    </div>
+  </CardHeader>
+
+  <CardContent>
+    <Badge className="mb-3 bg-white/20 text-white">
+      {funFacts[currentFactIndex].category}
+    </Badge>
+    <h3 className="text-xl font-bold text-white mb-3">
+      {funFacts[currentFactIndex].title}
+    </h3>
+    <p className="text-white/90 mb-4 leading-relaxed">
+      {funFacts[currentFactIndex].fact}
+    </p>
+    <Button 
+      onClick={() => handleFactClick(funFacts[currentFactIndex].source)}
+      className="bg-white/20 hover:bg-white/30 text-white border border-white/30"
+    >
+      Learn More <ExternalLink className="w-4 h-4 ml-2" />
+    </Button>
+  </CardContent>
+</Card>
+
 
           {/* All Fun Facts */}
-          <Card className="bg-white/20 backdrop-blur-md border-white/30">
+          <Card className="bg-gradient-to-br from-cyan-700/40 to-blue-900/70 backdrop-blur-md border-white/30">
             <CardHeader>
               <CardTitle className="text-white">More Ocean Facts</CardTitle>
               <CardDescription className="text-white/80">
