@@ -123,7 +123,7 @@ const PaymentPage: React.FC = () => {
     token || ''
   );
 
-  
+  await addUserPoints(points);
   await logActivity(
     'donation',
     `Donated $${donationAmount} to ${selectedScheme.name}`,
