@@ -35,29 +35,27 @@ const GamesPage = () => {
 
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
 
-  useEffect(() => {
   const fetchLeaderboard = async () => {
-    try {
-      const res = await fetch("http://127.0.0.1:8000/api/users/leaderboard/");
-      if (!res.ok) {
-        throw new Error("Failed to fetch leaderboard");
-      }
-      const data = await res.json();
-      const ranked = data
-        .sort((a: any, b: any) => b.points - a.points)
-        .map((player: any, index: number) => ({
-          rank: index + 1,
-          username: player.username,
-          points: player.points,
-          character: player.marine_character,
-        }));
-      setLeaderboard(ranked);
-    } catch (err) {
-      console.error("Failed to load leaderboard:", err);
-      toast.error("Couldn't load leaderboard.");
-    }
-  };
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/users/leaderboard/");
+    if (!res.ok) throw new Error("Failed to fetch leaderboard");
+    const data = await res.json();
+    const ranked = data
+      .sort((a: any, b: any) => b.points - a.points)
+      .map((player: any, index: number) => ({
+        rank: index + 1,
+        username: player.username,
+        points: player.points,
+        character: player.marine_character,
+      }));
+    setLeaderboard(ranked);
+  } catch (err) {
+    console.error("Failed to load leaderboard:", err);
+    toast.error("Couldn't load leaderboard.");
+  }
+};
 
+useEffect(() => {
   fetchLeaderboard();
 }, []);
 
@@ -132,6 +130,7 @@ const GamesPage = () => {
       updateUserPoints(50);
       toast.success('You won! +50 points!');
       await logActivity('game', 'Won Tic Tac Toe', 50);
+      await fetchLeaderboard();
       
       return;
     }
@@ -141,6 +140,7 @@ const GamesPage = () => {
       updateUserPoints(10);
       toast.success('Draw! +10 points!');
       await logActivity('game', 'Drew Tic Tac Toe', 10);
+      await fetchLeaderboard();
       return;
     }
 
@@ -196,6 +196,7 @@ const GamesPage = () => {
     setFishGameStatus('ended');
     toast.success(`Game complete! Final score: ${newScore}/${fishQuestions.length}`);
     await logActivity('game', 'Completed Guess the Fish Quiz', newScore * 25);
+    await fetchLeaderboard();
   }
 };
 
