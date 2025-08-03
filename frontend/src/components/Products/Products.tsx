@@ -57,10 +57,10 @@ const Products = () => {
         {/* Header section */}
         <div className="text-center mb-10 max-w-[600px] mx-auto">
           <p data-aos="fade-up" className="text-sm text-primary">
-            Top Rewards for you
+            𝐓𝐨𝐩 𝐑𝐞𝐰𝐚𝐫𝐝𝐬 𝐟𝐨𝐫 𝐲𝐨𝐮
           </p>
           <h1 data-aos="fade-up" className="text-3xl font-bold">
-            Rewards
+            𝐑𝐞𝐰𝐚𝐫𝐝𝐬
           </h1>
           <p data-aos="fade-up" className="text-xs text-gray-400">
             From exclusive badges to ocean-themed goodies, get rewarded for exploring, engaging, and protecting the blue. Because doing good should feel great!
@@ -97,7 +97,7 @@ const Products = () => {
           <div className="flex justify-center">
             <Link to='/login'>
             <button className="text-center mt-10 cursor-pointer bg-primary text-white py-1 px-5 rounded-md">
-              View All Button
+              𝐕𝐢𝐞𝐰 𝐀𝐥𝐥 𝐁𝐮𝐭𝐭𝐨𝐧
             </button>
             </Link>
           </div>

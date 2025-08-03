@@ -9,21 +9,21 @@ const ImageList = [
   {
     id: 1,
     img: Image1,
-    title: "Explore the ocean with just a scroll",
+    title: "𝔼𝕩𝕡𝕝𝕠𝕣𝕖 𝕥𝕙𝕖 𝕠𝕔𝕖𝕒𝕟 𝕨𝕚𝕥𝕙 𝕛𝕦𝕤𝕥 𝕒 𝕤𝕔𝕣𝕠𝕝𝕝",
     description:
       "Dive into the mysteries of the deep blue sea—discover marine life, ecosystems, and stories from the heart of the ocean, all from your screen.",
   },
   {
     id: 2,
     img: Image2,
-    title: "Fun Ocean Games and Activities",
+    title: "𝔽𝕦𝕟 𝕆𝕔𝕖𝕒𝕟 𝔾𝕒𝕞𝕖𝕤 𝕒𝕟𝕕 𝔸𝕔𝕥𝕚𝕧𝕚𝕥𝕚𝕖𝕤",
     description:
       "Learn while you play! Challenge yourself with fun, interactive games that raise awareness about marine conservation and the wonders of the ocean.",
   },
   {
     id: 3,
     img: Image3,
-    title: "Live Ocean Cams",
+    title: "𝕃𝕚𝕧𝕖 𝕆𝕔𝕖𝕒𝕟 𝕔𝕒𝕞𝕤",
     description:
       "Watch real-time footage from oceanic hotspots around the world—observe dolphins, coral reefs, and the daily rhythm of marine life from anywhere.",
   },
@@ -81,7 +81,7 @@ const Hero = () => {
                     <button
                       className="bg-gradient-to-r from-primary to-secondary hover:scale-105 duration-200 text-white py-2 px-4 rounded-full"
                     >
-                      Explore Now
+                      𝐄𝐱𝐩𝐥𝐨𝐫𝐞 𝐍𝐨𝐰
                     </button>
                     </Link>
                   </div>

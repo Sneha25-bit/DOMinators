@@ -9,21 +9,21 @@ const ProductsData = [
   {
     id: 1,
     img: Img1,
-    title: "Underwater Exploration",
+    title: "𝕌𝕟𝕕𝕖𝕣𝕨𝕒𝕥𝕖𝕣 𝔼𝕩𝕡𝕝𝕠𝕣𝕒𝕥𝕚𝕠𝕟",
     description:
       "Uncover the mysteries of the ocean—from vibrant coral reefs to the darkest trenches. Discover marine life, ocean facts, and hidden wonders waiting just beneath the surface.",
   },
   {
     id: 2,
     img: Img2,
-    title: "Make new friends",
+    title: "𝕄𝕒𝕜𝕖 𝕟𝕖𝕨 𝕗𝕣𝕚𝕖𝕟𝕕𝕤",
     description:
       "Connect with fellow ocean lovers, share your discoveries, and ride the wave of new friendships across the globe. Dive into conversations as deep as the sea!",
   },
   {
     id: 3,
     img: Img3,
-    title: "Donation",
+    title: "𝔻𝕠𝕟𝕒𝕥𝕚𝕠𝕟",
     description:
       "Your donation helps protect marine life, fight ocean pollution, and fuel exploration efforts. Every rupee brings us closer to a healthier, bluer planet.",
   },
@@ -35,10 +35,10 @@ const TopProducts = () => {
         {/* Header section */}
         <div className="text-left mb-24">
           <p data-aos="fade-up" className="text-sm text-primary">
-            Top Rated Products for you
+            𝐓𝐨𝐩 𝐑𝐚𝐭𝐞𝐝 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐟𝐨𝐫 𝐲𝐨𝐮
           </p>
           <h1 data-aos="fade-up" className="text-3xl font-bold">
-            Best Products
+            𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
           </h1>
           <p data-aos="fade-up" className="text-xs text-gray-400">
             Discover the best of our ocean-focused platform — from exciting exploration tools to community connections and meaningful impact. Dive into the features making waves!
@@ -70,7 +70,7 @@ const TopProducts = () => {
                 <button
                   className="bg-primary hover:scale-105 duration-300 text-white py-1 px-4 rounded-full mt-4 group-hover:bg-white group-hover:text-primary"
                 >
-                  Explore
+                  𝐄𝐱𝐩𝐥𝐨𝐫𝐞
                 </button>
                 </Link>
               </div>

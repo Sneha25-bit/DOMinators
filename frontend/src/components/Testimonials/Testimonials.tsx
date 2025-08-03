@@ -75,10 +75,10 @@ const Testimonials = () => {
         {/* header section */}
         <div className="text-center mb-10 max-w-[600px] mx-auto">
           <p data-aos="fade-up" className="text-sm text-primary">
-            What our users are saying
+            𝐖𝐡𝐚𝐭 𝐨𝐮𝐫 𝐮𝐬𝐞𝐫𝐬 𝐚𝐫𝐞 𝐬𝐚𝐲𝐢𝐧𝐠
           </p>
           <h1 data-aos="fade-up" className="text-3xl font-bold">
-            Testimonials
+            𝐓𝐞𝐬𝐭𝐢𝐦𝐨𝐧𝐢𝐚𝐥𝐬
           </h1>
           <p data-aos="fade-up" className="text-xs text-gray-400">
             Hear real stories from ocean explorers, nature lovers, and change-makers who’ve felt the magic of our community. Their words, your inspiration.
