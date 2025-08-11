@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/',
   withCredentials: true,
 });
 
@@ -27,9 +27,11 @@ apiClient.interceptors.response.use(
         const refreshToken = localStorage.getItem('refresh_token');
         if (!refreshToken) throw new Error('No refresh token found');
 
-        const res = await axios.post('http://localhost:8000/api/users/token/refresh/', {
-          refresh: refreshToken,
-        });
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/'}users/token/refresh/`, 
+          { refresh: refreshToken} ,
+          { withCredentials: true}
+        );
 
         const newAccessToken = res.data.access;
         localStorage.setItem('access_token', newAccessToken);
