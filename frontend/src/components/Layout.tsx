@@ -136,7 +136,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white/20 backdrop-blur-md border-t border-white/30 mt-12">
+      <footer className="bg-white/90 backdrop-blur-md border-t border-gray-300 shadow-inner mt-12 py-8">
         <div className="container mx-auto px-4 py-8">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
