@@ -10,7 +10,7 @@ interface DonationData {
 }
 
 export const createDonation = (data: DonationData, token: string) => {
-  return apiClient.post('/donations/create/', data, {
+  return apiClient.post('donations/create/', data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
