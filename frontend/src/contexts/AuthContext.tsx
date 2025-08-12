@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   try {
     // POST request to your `UpdateUserPointsView` endpoint
-    const res = await axiosInstance.post('/api/users/add-points/', {
+    const res = await axiosInstance.post('/users/add-points/', {
       points,
     });
 
@@ -76,7 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshUser = async () => {
     try {
-      const res = await axiosInstance.get('/api/users/me/'); 
+      const res = await axiosInstance.get('/users/me/'); 
       setUser(res.data);
       localStorage.setItem('oceanUser', JSON.stringify(res.data));
     } catch (error) {

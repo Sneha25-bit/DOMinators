@@ -10,7 +10,7 @@ const FriendRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axiosInstance.get('/api/friend-requests/');
+      const res = await axiosInstance.get('/friend-requests/');
       setRequests(res.data);
     } catch (err) {
       toast.error('Failed to load friend requests');
@@ -27,7 +27,7 @@ const FriendRequests = () => {
 
   const handleAccept = async (id: number) => {
     try {
-      await axiosInstance.post(`/api/friend-requests/${id}/accept/`);
+      await axiosInstance.post(`/friend-requests/${id}/accept/`);
       toast.success('Friend request accepted');
       removeRequest(id); // Optimistically remove
     } catch {
@@ -37,7 +37,7 @@ const FriendRequests = () => {
 
   const handleReject = async (id: number) => {
     try {
-      await axiosInstance.post(`/api/friend-requests/${id}/reject/`);
+      await axiosInstance.post(`/friend-requests/${id}/reject/`);
       toast.success('Friend request rejected');
       removeRequest(id); // Optimistically remove
     } catch {
