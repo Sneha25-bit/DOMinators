@@ -40,7 +40,7 @@ const ChatBot = () => {
     if (match) {
       const year = parseInt(match[1]);
       try {
-        const res = await axios.post('http://localhost:8000/api/ocean-ai/predict/', {
+        const res = await axios.post('https://dominators.onrender.com/api/ocean-ai/predict/', {
           year: year,
         });
 
