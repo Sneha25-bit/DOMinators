@@ -16,7 +16,7 @@ const SendFriendRequest = () => {
     }
 
     try {
-      await axiosInstance.post('/api/friend-requests/', { to_username: username });
+      await axiosInstance.post('/friend-requests/', { to_username: username });
       toast.success(`Friend request sent to ${username}`);
       setUsername('');
     } catch (error: any) {
