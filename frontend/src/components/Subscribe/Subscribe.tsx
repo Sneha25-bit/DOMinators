@@ -31,7 +31,7 @@ const Subscribe = () => {
       <div className="container backdrop-blur-sm py-10">
         <div className="space-y-6 max-w-xl mx-auto">
           <h1 className="text-2xl !text-center sm:text-left sm:text-4xl font-semibold">
-            Get Notified About News and Facts updates
+            𝐆𝐞𝐭 𝐍𝐨𝐭𝐢𝐟𝐢𝐞𝐝 𝐀𝐛𝐨𝐮𝐭 𝐍𝐞𝐰𝐬 𝐚𝐧𝐝 𝐅𝐚𝐜𝐭𝐬 𝐮𝐩𝐝𝐚𝐭𝐞𝐬
           </h1>
           <div className="flex flex-col sm:flex-row gap-4">
             <input

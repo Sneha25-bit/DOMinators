@@ -8,6 +8,8 @@ class CustomUser(AbstractUser):
     marine_character = models.CharField(max_length=50, default='dolphin')
     join_date = models.DateTimeField(auto_now_add=True)
     points = models.IntegerField(default=0)
+    total_points_spent = models.IntegerField(default=0)
+    redemption_count = models.IntegerField(default=0)
 
     ONLINE = 'online'
     RECENTLY = 'recently'

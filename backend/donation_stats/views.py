@@ -14,7 +14,7 @@ class UserDonationStatsView(APIView):
         return Response({
             'total_amount': total_amount,
             'donation_count': count,
-            'ocean_points': total_amount * 2,
+            'ocean_points': total_amount,
             'donations': [
                 {
                     'id': d.id,

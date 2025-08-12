@@ -142,6 +142,9 @@ npm run dev
 
 ---
 
+## Deployment Status
+**Note:** The website is currently not deployed properly due to deployment issues. However the full project can be run locally using the instructions mentioned above.
+
 ## ✅ Project Guidelines
 
 * Do **not** commit `env/`, `.next/`, `node_modules/`, or `db.sqlite3`

@@ -36,6 +36,14 @@ const FooterLinks = [
   },
 ];
 
+
+const OtherLinks = [
+  { title: "Privacy Policy", link: "/#privacy" },
+  { title: "Terms of Service", link: "/#terms" },
+  { title: "Support", link: "/#support" },
+  { title: "FAQs", link: "/#faq" },
+];
+
 const Footer = () => {
   return (
     <div style={BannerImg} className="text-white">
@@ -77,7 +85,7 @@ const Footer = () => {
                   Links
                 </h1>
                 <ul className="flex flex-col gap-3">
-                  {FooterLinks.map((link) => (
+                  {OtherLinks.map((link) => (
                     <li
                       className="cursor-pointer hover:text-primary hover:translate-x-1 duration-300 text-gray-200"
                       key={link.title}

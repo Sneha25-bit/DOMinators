@@ -21,7 +21,7 @@ const Banner = () => {
           {/* text details section */}
           <div className="flex flex-col justify-center gap-6 sm:pt-0">
             <h1 data-aos="fade-up" className="text-3xl sm:text-4xl font-bold">
-              Be a part of the ocean community
+              𝐁𝐞 𝐚 𝐩𝐚𝐫𝐭 𝐨𝐟 𝐭𝐡𝐞 𝐨𝐜𝐞𝐚𝐧 𝐜𝐨𝐦𝐦𝐮𝐧𝐢𝐭𝐲
             </h1>
             <p
               data-aos="fade-up"

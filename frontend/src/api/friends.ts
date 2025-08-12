@@ -1,25 +1,24 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://dominators.onrender.com/api/',
+  withCredentials: true, 
 });
 
-// 🔁 Attach token before every request
 axiosInstance.interceptors.request.use(
-  config => {
+  (config) => {
     const token = localStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  error => Promise.reject(error)
+  (error) => Promise.reject(error)
 );
 
-// 🔄 Refresh token if access token expired
 axiosInstance.interceptors.response.use(
-  response => response,
-  async error => {
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -27,10 +26,11 @@ axiosInstance.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem('refresh_token');
+        if (!refreshToken) throw new Error('No refresh token found');
 
-        const res = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
-          refresh: refreshToken,
-        });
+        const refreshUrl = 'https://dominators.onrender.com/api/token/refresh/';
+
+        const res = await axios.post(refreshUrl, { refresh: refreshToken });
 
         const newAccessToken = res.data.access;
         localStorage.setItem('access_token', newAccessToken);
