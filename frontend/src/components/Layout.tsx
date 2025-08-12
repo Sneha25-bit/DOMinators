@@ -68,7 +68,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
               <Link to="/home" className="text-white font-bold text-xl flex items-center">
-                🌊 Ocean Explorer
+                🌊 Aqua Vibes
               </Link>
               <div className="hidden md:flex space-x-1">
                 {navItems.map((item) => (
