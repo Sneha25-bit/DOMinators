@@ -37,7 +37,7 @@ const GamesPage = () => {
 
   const fetchLeaderboard = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/users/leaderboard/");
+    const res = await fetch('https://dominators.onrender.com/api/users/leaderboard/')
     if (!res.ok) throw new Error("Failed to fetch leaderboard");
     const data = await res.json();
     const ranked = data
