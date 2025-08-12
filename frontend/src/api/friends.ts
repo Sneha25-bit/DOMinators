@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
         const refreshToken = localStorage.getItem('refresh_token');
         if (!refreshToken) throw new Error('No refresh token found');
 
-        const refreshUrl = 'https://dominators.onrender.com/api/token/refresh/';
+        const refreshUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}token/refresh/`;
 
         const res = await axios.post(refreshUrl, { refresh: refreshToken });
 

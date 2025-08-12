@@ -51,7 +51,7 @@ const MessageChat: React.FC<MessageChatProps> = ({
 
   const loadMessages = async () => {
     try {
-      const res = await axiosInstance.get(`messages/?friend_id=${friendId}`);
+      const res = await axiosInstance.get(`/api/messages/?friend_id=${friendId}`);
       setMessages(res.data);
     } catch {
       toast.error('Failed to load messages');
@@ -73,7 +73,7 @@ const MessageChat: React.FC<MessageChatProps> = ({
     }
 
     try {
-      await axiosInstance.post('messages/', {
+      await axiosInstance.post('/api/messages/', {
         recipient: friendId,
         content: trimmed,
       });
