@@ -27,7 +27,7 @@ const logActivity = async (type: 'community', description: string, points: numbe
   }
 };
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe('pk_test_51Rrj1S3VJP2CtoWasYRrt2l7oSDA78Gdg4tpZnnfJfmVaRAdiGYcXjRP5smBumXjdudVYlu9SbhBlm0ba6pyNLiC00XnlyghMk');
 
 const PaymentPage = () => {
   const navigate = useNavigate();
