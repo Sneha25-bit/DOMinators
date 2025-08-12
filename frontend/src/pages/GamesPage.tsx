@@ -263,6 +263,7 @@ useEffect(() => {
             </div>
 
             {/* Leaderboard */}
+             <div className="bg-cyan-500 bg-opacity-60 backdrop-blur-md rounded-lg p-6 text-white space-y-6">
             <Card className="bg-white/20 backdrop-blur-md border-white/30">
               <CardHeader>
                 <CardTitle className="text-white flex items-center">
@@ -307,10 +308,13 @@ useEffect(() => {
                         }`} />
                       )}
                     </div>
+                    
                   ))}
                 </div>
+                
               </CardContent>
             </Card>
+            </div>
           </>
         )}
 
