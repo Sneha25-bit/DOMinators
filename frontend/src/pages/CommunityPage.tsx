@@ -101,6 +101,7 @@ const CommunityPage = () => {
   return (
     <Layout>
       <div className="space-y-6">
+        <div className="bg-cyan-500 bg-opacity-60 backdrop-blur-md rounded-lg p-6 text-white space-y-6">
         <CommunityHeader />
         <CreatePostForm 
           newPost={newPost}
@@ -117,6 +118,7 @@ const CommunityPage = () => {
             />
           ))}
         </div>
+      </div>
       </div>
     </Layout>
   );
