@@ -31,7 +31,7 @@ const MyFriends = () => {
   useEffect(() => {
     const fetchFriends = async () => {
       try {
-        const res = await axiosInstance.get('/api/friends/');
+        const res = await axiosInstance.get('friends/');
         setFriends(res.data);
       } catch {
         toast.error('Failed to fetch friends');
