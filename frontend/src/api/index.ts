@@ -28,10 +28,10 @@ apiClient.interceptors.response.use(
         if (!refreshToken) throw new Error('No refresh token found');
 
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/'}users/token/refresh/`, 
-          { refresh: refreshToken} ,
-          { withCredentials: true}
-        );
+          'https://dominators.onrender.com/api/users/token/refresh/',
+          { refresh: refreshToken },
+          { withCredentials: true }
+      );
 
         const newAccessToken = res.data.access;
         localStorage.setItem('access_token', newAccessToken);
