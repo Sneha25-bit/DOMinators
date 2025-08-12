@@ -72,6 +72,7 @@ const MyFriends = () => {
   return (
     <Layout>
       <div className="space-y-6">
+        <div className="bg-cyan-500 bg-opacity-60 backdrop-blur-md rounded-lg p-6 text-white space-y-6">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4 flex items-center justify-center">
@@ -167,6 +168,7 @@ const MyFriends = () => {
             </CardContent>
           </Card>
         ))}
+        </div>
       </div>
     </Layout>
   );
