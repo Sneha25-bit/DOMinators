@@ -137,7 +137,7 @@ npm run dev
 | -------- | ----------------------------- |
 | Frontend | Next.js, Tailwind     |
 | Backend  | Django, Django REST Framework |
-| Database | Postgres SQL             |
+| Database | PostgreSQL(Deployment), SQLlite(Development)             |
 | Tools    | Git, GitHub, VS Code          |
 
 ---
