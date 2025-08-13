@@ -137,13 +137,13 @@ npm run dev
 | -------- | ----------------------------- |
 | Frontend | Next.js, Tailwind     |
 | Backend  | Django, Django REST Framework |
-| Database | SQLite (dev only)             |
+| Database | Postgres SQL             |
 | Tools    | Git, GitHub, VS Code          |
 
 ---
 
 ## Deployment Status
-**Note:** The website is currently not deployed properly due to deployment issues. However the full project can be run locally using the instructions mentioned above.
+**Note:** The website has been successfully deployed and is now live => do-minators.vercel.app
 
 ## ✅ Project Guidelines
 
